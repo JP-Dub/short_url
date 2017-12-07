@@ -2,10 +2,8 @@
 var mongodb = require('mongodb');
 var express = require('express');
 var MongoClient = mongodb.MongoClient;
+var url = process.env.MONGOLAB_URI;
 var app = express();
-
-var url = "mongodb://jdub2018:6b\@llFl1ck@cluster0-shard-00-00-xhddy.mongodb.net:27017,cluster0-shard-00-01-xhddy.mongodb.net:27017,cluster0-shard-00-02-xhddy.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin";      
-//(Focus on This Variable)
 
 // Use connect method to connect to the Server
   MongoClient.connect(url, function (err, db) {
