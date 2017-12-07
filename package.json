@@ -1,5 +1,6 @@
 {
-  "name": "url_shortener_microservice",
+  {
+  "name": "url shortener microservice",
   "version": "1.0.0",
   "description": "FCC Backend Challenge",
   "main": "server.js",
@@ -12,16 +13,24 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
+    "engines": {
+    "node": "8.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JP-Dub/header-request"
+  },
+  "author": "jDub",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JP-Dub/header-request/issues"
+  },
   "keywords": [
     "fcc",
     "freecodecamp",
     "jdub",
-    "url",
-    "shortener",
-    "microservice"
-  ],
-  "author": "jDub",
-  "license": "ISC"
+    "url shortener"
+  ]
 }ub",
   "license": "ISC"
 }
