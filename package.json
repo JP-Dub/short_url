@@ -1,8 +1,7 @@
 {
-  {
-  "name": "url shortener microservice",
+  "name": "url-shortener",
   "version": "1.0.0",
-  "description": "FCC Backend Challenge",
+  "description": "FCC Backend Challenge: URL Shortener Microservice",
   "main": "server.js",
   "dependencies": {
     "mongodb": "^3.0.0-rc0",
@@ -21,7 +20,7 @@
     "url": "https://github.com/JP-Dub/header-request"
   },
   "author": "jDub",
-  "license": "MIT",
+  "license": "ISC",
   "bugs": {
     "url": "https://github.com/JP-Dub/header-request/issues"
   },
@@ -31,6 +30,4 @@
     "jdub",
     "url shortener"
   ]
-}ub",
-  "license": "ISC"
 }
