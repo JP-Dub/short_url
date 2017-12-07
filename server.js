@@ -16,7 +16,12 @@ var obj = {
   } else {
     console.log('Connection established...');
     // do some work here with the database.
-    
+    app.get("/:anyurl", function (req, res) {
+  console.log(req.params)
+  obj.original = "null";
+  obj.shortened = "null";
+  res.json(obj);
+});
     //Close connection
     db.close();
   }
@@ -30,13 +35,13 @@ app.use('/public', express.static(process.cwd() + '/public'));
 app.get("/", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
-
-app.get(":/anyurl", function (req, res) {
-  console.log(req.param)
-  obj.original = req.params;
+/*
+app.get("/:anyurl", function (req, res) {
+  console.log(req.params)
+  obj.original = "null";
   obj.shortened = "null";
-  res.send(JSON.stringify(obj));
-});
+  res.json(obj);
+});*/
 
 
 // listen for requests :)
