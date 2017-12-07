@@ -1,28 +1,24 @@
 {
-  "//1": "describes your app and its dependencies",
-  "//2": "https://docs.npmjs.com/files/package.json",
-  "//3": "updating this file will download and update your packages",
-
-  "name": "my-glitch-app",
-  "version": "0.0.1",
-  "description": "What am I about?",
+  "name": "url_shortener_microservice",
+  "version": "1.0.0",
+  "description": "FCC Backend Challenge",
   "main": "server.js",
+  "dependencies": {
+    "mongodb": "^3.0.0-rc0"
+  },
+  "devDependencies": {},
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-  "dependencies": {
-    "express": "^4.16.2"
-  },
-  "engines": {
-    "node": "8.x"
-  },
-  "repository": {
-    "url": "https://glitch.com/edit/#!/welcome-project"
-  },
-  "license": "MIT",
   "keywords": [
-    "node",
-    "glitch",
-    "express"
-  ]
+    "fcc",
+    "freecodecamp",
+    "jdub",
+    "url",
+    "shortener",
+    "microservice"
+  ],
+  "author": "jDub",
+  "license": "ISC"
 }

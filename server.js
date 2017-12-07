@@ -1,6 +1,10 @@
 // init project
+var mongodb = require('mongodb');
 var express = require('express');
+var MongoClient = mongodb.MongoClient;
 var app = express();
+
+
 
 // http://expressjs.com/en/starter/static-files.html
 //app.use(express.static('public'));
