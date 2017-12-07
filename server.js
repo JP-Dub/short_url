@@ -10,10 +10,9 @@ var app = express();
   if (err) {
     console.log('Unable to connect to the mongoDB server. Error:', err);
   } else {
-    console.log('Connection established to', url);
-
+    console.log('Connection established...');
     // do some work here with the database.
-
+    
     //Close connection
     db.close();
   }
@@ -28,13 +27,13 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
 
-app.get("/dreams", function (request, response) {
-  response.send(dreams);
+app.get("/new:anyurl", function (req, res) {
+  res.send(JSON.stringify(req));
 });
 
 // could also use the POST body instead of query string: http://expressjs.com/en/api.html#req.body
-app.post("/dreams", function (request, response) {
-  dreams.push(request.query.dream);
+app.post("/new", function (request, response) {
+  dreams.push(request.query.new);
   response.sendStatus(200);
 });
 
