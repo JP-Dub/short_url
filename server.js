@@ -27,8 +27,8 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
 
-app.get("/new:anyurl", function (req, res) {
-  res.send(JSON.stringify(req));
+app.get("/anyurl", function (req, res) {
+  res.send(JSON.stringify(req.body));
 });
 
 // could also use the POST body instead of query string: http://expressjs.com/en/api.html#req.body
