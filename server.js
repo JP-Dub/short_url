@@ -4,8 +4,23 @@ var express = require('express');
 var MongoClient = mongodb.MongoClient;
 var app = express();
 
+//var url = 'mongodb://73.56.189.248/32/my_database_name';      
+//(Focus on This Variable)
+/*
+// Use connect method to connect to the Server
+  MongoClient.connect(url, function (err, db) {
+  if (err) {
+    console.log('Unable to connect to the mongoDB server. Error:', err);
+  } else {
+    console.log('Connection established to', url);
 
+    // do some work here with the database.
 
+    //Close connection
+    db.close();
+  }
+});
+*/
 // http://expressjs.com/en/starter/static-files.html
 //app.use(express.static('public'));
 app.use('/public', express.static(process.cwd() + '/public'));
