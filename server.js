@@ -14,9 +14,9 @@ var obj = {
   if (err) {
     console.log('Unable to connect to the mongoDB server. Error:', err);
   } else {
-    console.log('Connection established...' + process.env.MONGOLAB_URI);
+    console.log('Connection established...');
     // do some work here with the database.
-    app.get("/:anyurl", function (req, res) {
+    app.get("/*", function (req, res) {
   console.log(req.params, obj)
   obj.original = "null";
   obj.shortened = "null";
@@ -35,13 +35,13 @@ app.use('/public', express.static(process.cwd() + '/public'));
 app.get("/", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
-/*
+
 app.get("/:anyurl", function (req, res) {
-  console.log(req.params)
+  console.log(req.params, "coming at you live")
   obj.original = "null";
   obj.shortened = "null";
   res.json(obj);
-});*/
+});
 
 
 // listen for requests :)
