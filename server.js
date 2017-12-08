@@ -17,7 +17,7 @@ var obj = {
     console.log('Connection established...' + process.env.MONGOLAB_URI);
     // do some work here with the database.
     app.get("/:anyurl", function (req, res) {
-  console.log(req.params)
+  console.log(req.params, obj)
   obj.original = "null";
   obj.shortened = "null";
   res.json(obj);
