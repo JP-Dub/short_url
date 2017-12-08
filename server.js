@@ -14,7 +14,7 @@ var obj = {
   if (err) {
     console.log('Unable to connect to the mongoDB server. Error:', err);
   } else {
-    console.log('Connection established...');
+    console.log('Connection established...' + process.env.MONGOLAB_URI);
     // do some work here with the database.
     app.get("/:anyurl", function (req, res) {
   console.log(req.params)
