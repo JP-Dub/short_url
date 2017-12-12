@@ -4,7 +4,7 @@ var express = require('express');
 //var MongoClient = mongodb.MongoClient;
 var monurl = process.env.MONGOLAB_URI;
 var app = express();
-var db = "mongodb://localhost:27017/urlLib";
+//var db = "mongodb://localhost:27017/urlLib";
 // http://expressjs.com/en/starter/static-files.html
 //app.use(express.static('public'));
 app.use('/public', express.static(process.cwd() + '/public'));
@@ -14,7 +14,7 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
 
-
+/*
 MongoClient.connect(db, function (err, db) {
   if (err) {
     console.log('Unable to connect to the DB server. Error:', err);
@@ -29,13 +29,14 @@ MongoClient.connect(db, function (err, db) {
     }
   });
 });
-
+*/
 // Use connect method to connect to the Server
 MongoClient.connect(monurl, function (err, db) {
   if (err) {
     console.log('Unable to connect to the mongoDB server. Error:', err);
   } else {
     console.log('Connection established...');  
+  }
 
     // do some work here with the database.
     app.get("/*", function (req, res) {
@@ -93,8 +94,8 @@ mapquest(url);
 });
     //Close connection
     db.close();
-  }
 });
+
 
 
 
