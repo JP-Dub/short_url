@@ -4,9 +4,12 @@ var express = require('express');
 var MongoClient = mongodb.MongoClient;
 var url = process.env.MONGOLAB_URI;
 var app = express();
-var obj = new Object();
+
 var urlLib = new Object();
-var str = "abcde0fghij1klmno2pqrst3uvwxy4zABCD5EFGHI6JKLMN7OPQRS8TUVWX9YZ";
+var data = new Object();
+data.obj = new Object();
+data.str = "abcde0fghij1klmno2pqrst3uvwxy4zABCD5EFGHI6JKLMN7OPQRS8TUVWX9YZ";
+
 // Use connect method to connect to the Server
   MongoClient.connect(url, function (err, db) {
   if (err) {
@@ -15,7 +18,7 @@ var str = "abcde0fghij1klmno2pqrst3uvwxy4zABCD5EFGHI6JKLMN7OPQRS8TUVWX9YZ";
     console.log('Connection established...');
     // do some work here with the database.
     app.get("/*", function (req, res) {
-    console.log(req.params, obj)
+    console.log(req.params, data)
       
       
       
@@ -24,13 +27,11 @@ var str = "abcde0fghij1klmno2pqrst3uvwxy4zABCD5EFGHI6JKLMN7OPQRS8TUVWX9YZ";
       
       
       
+         
       
-      
-      
-      
-  obj.original = "null";
-  obj.shortened = "null";
-  res.json(obj);
+  data.obj.original = "null";
+  data.obj.shortened = "null";
+  res.json(data.obj);
 });
     //Close connection
     db.close();
@@ -45,14 +46,14 @@ app.use('/public', express.static(process.cwd() + '/public'));
 app.get("/", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
-
+/*
 app.get("/:anyurl", function (req, res) {
   console.log(req.params, "coming at you live")
-  obj.original = "null";
-  obj.shortened = "null";
-  res.json(obj);
+  data.obj.original = "null";
+  data.obj.shortened = "null";
+  res.json(data.obj);
 });
-
+*/
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
