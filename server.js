@@ -38,6 +38,7 @@ Mongo.connect(monurl, function (err, db) {
     console.log('Connection established...');  
   }
 
+  //db.createCollection("urlLib");
     // do some work here with the database.
     app.get("/*", function (req, res) {
       var url = req.params[0];
