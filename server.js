@@ -55,7 +55,7 @@ MongoClient.connect(monurl, function (err, db) {
         data.obj.shortened_url = short;
         res.json(data.obj);
       } else {
-        randomURL(z); // if random() duplicates a new random() hash string is created
+        randomURL(z); // if random() duplicates, a new random() hash string is created
       }   
     }
   
