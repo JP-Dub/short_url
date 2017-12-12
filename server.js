@@ -20,7 +20,7 @@ MongoClient.connect(monurl, function (err, db) {
   if (err) {
     console.log('Unable to connect to the mongoDB server. Error:', err);
   } else {
-    console.log('Connection established...');
+    console.log('Connection established...');                                                       
     // do some work here with the database.
     app.get("/*", function (req, res) {
       var url = req.params[0];
