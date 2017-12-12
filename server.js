@@ -79,13 +79,20 @@ MongoClient.connect(monurl, function (err, db) {
       } 
     }
     randomURL(x);
-  }
+  };
 
 mapquest(url);
 });
     //Close connection
     db.close();
   }
+});
+
+
+
+// listen for requests :)
+var listener = app.listen(process.env.PORT, function () {
+  console.log('Your app is listening on port ' + listener.address().port);
 });
 
 
@@ -97,11 +104,6 @@ app.get("/:anyurl", function (req, res) {
   res.json(data.obj);
 });
 */
-
-// listen for requests :)
-var listener = app.listen(process.env.PORT, function () {
-  console.log('Your app is listening on port ' + listener.address().port);
-});
 
 /*
 app.use('/public', express.static(process.cwd() + '/public'));
