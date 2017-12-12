@@ -25,15 +25,13 @@ MongoClient.connect(monurl, function (err, db) {
     console.log('Connection established...');
     // do some work here with the database.
     app.get("/*", function (req, res) {
-      var urlLib = new Object();
-      var data = new Object();
-      data.obj = new Object();
-      data.str = "abcde0fghij1klmno2pqrst3uvwxy4zABCD5EFGHI6JKLMN7OPQRS8TUVWX9YZ";  
-      var url = req.params[0];
-        console.log(req.params, data)
-      
+      var urlLib = new Object(); // this creates a db for the url library
+      var data = new Object(); // creates an db for the string hash and return url query
+      data.obj = new Object(); // return the results of the url query(orig_url and short_url)
+      data.str = "abcde0fghij1klmno2pqrst3uvwxy4zABCD5EFGHI6JKLMN7OPQRS8TUVWX9YZ";  // string hash for random()
+  // function to store and check db for url query and return results    
   function mapquest(x, y) {
-    
+    //
     var randomURL = function(z){
       var short = "sho.rt/";
       var str = data.str;
@@ -44,7 +42,9 @@ MongoClient.connect(monurl, function (err, db) {
       var isGood = mapquest(null, short);
       if (isGood) {  
         urlLib[z.toString()] = short;
-        //console.log(obj.str)
+        data.obj.original_url = z;
+        data.obj.shortened_url = short;
+        res.json(data.obj);
       } else {
         randomURL(z);
       }   
@@ -56,7 +56,7 @@ MongoClient.connect(monurl, function (err, db) {
         if (key === x) {
           data.obj.original_url = key;
           data.obj.short_url = val;
-          return data.obj;
+          res.json(data.obj);
         }       
       }
     
@@ -70,17 +70,9 @@ MongoClient.connect(monurl, function (err, db) {
       } 
     }
     randomURL(x);
-    console.log(urlLib)
   }
 
-  //  for (var i = 0; i < addrTwo.length; i++) {
-  mapquest(url);
-  // }
-  console.log(data.obj)
-          
-  //data.obj.original = "null";
-  //data.obj.shortened = "null";
-  res.json(data.obj);
+mapquest(url);
 });
     //Close connection
     db.close();
