@@ -1,7 +1,6 @@
 // init project
-var MongoClient = require('mongodb').MongoClient;
+var Mongo = require('mongodb').MongoClient;
 var express = require('express');
-//var MongoClient = mongodb.MongoClient;
 var monurl = process.env.MONGOLAB_URI;
 var app = express();
 //var db = "mongodb://localhost:27017/urlLib";
@@ -30,8 +29,9 @@ MongoClient.connect(db, function (err, db) {
   });
 });
 */
+
 // Use connect method to connect to the Server
-MongoClient.connect(monurl, function (err, db) {
+Mongo.connect(monurl, function (err, db) {
   if (err) {
     console.log('Unable to connect to the mongoDB server. Error:', err);
   } else {
