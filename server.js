@@ -1,7 +1,7 @@
 // init project
-var mongodb = require('mongodb');
+var MongoClient = require('mongodb').MongoClient;
 var express = require('express');
-var MongoClient = mongodb.MongoClient;
+//var MongoClient = mongodb.MongoClient;
 var monurl = process.env.MONGOLAB_URI;
 var app = express();
 
@@ -20,7 +20,15 @@ MongoClient.connect(monurl, function (err, db) {
   if (err) {
     console.log('Unable to connect to the mongoDB server. Error:', err);
   } else {
-    console.log('Connection established...');                                                       
+    console.log('Connection established...');  
+ /* 
+  db.createCollection("urlLib", function(err, res) {
+    if (err) {
+      console.log('Unable to connect to the mongoDB server. Error:', err);
+    } else {
+      console.log("Collection created..");
+    }
+  });*/  
     // do some work here with the database.
     app.get("/*", function (req, res) {
       var url = req.params[0];
