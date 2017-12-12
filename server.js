@@ -2,7 +2,7 @@
 var mongodb = require('mongodb');
 var express = require('express');
 var MongoClient = mongodb.MongoClient;
-var url = process.env.MONGOLAB_URI;
+var monurl = process.env.MONGOLAB_URI;
 var app = express();
 
 
@@ -18,7 +18,7 @@ app.get("/", function (request, response) {
 
 
 // Use connect method to connect to the Server
-MongoClient.connect(url, function (err, db) {
+MongoClient.connect(monurl, function (err, db) {
   if (err) {
     console.log('Unable to connect to the mongoDB server. Error:', err);
   } else {
@@ -28,29 +28,30 @@ MongoClient.connect(url, function (err, db) {
       var urlLib = new Object();
       var data = new Object();
       data.obj = new Object();
-      data.str = "abcde0fghij1klmno2pqrst3uvwxy4zABCD5EFGHI6JKLMN7OPQRS8TUVWX9YZ";      
+      data.str = "abcde0fghij1klmno2pqrst3uvwxy4zABCD5EFGHI6JKLMN7OPQRS8TUVWX9YZ";  
+      var url = req.params[0];
         console.log(req.params, data)
       
   function mapquest(x, y) {
     
     var randomURL = function(z){
-      var url = "sho.rt/";
+      var short = "sho.rt/";
       var str = data.str;
       for (var i = 0; i < 6; i++) {
-        url += str[Math.floor(Math.random() * str.length)];
+        short += str[Math.floor(Math.random() * str.length)];
       }
   
-      var isGood = mapquest(null, url);
+      var isGood = mapquest(null, short);
       if (isGood) {  
-        urlLib[z.toString()] = url;
+        urlLib[z.toString()] = short;
         //console.log(obj.str)
       } else {
         randomURL(z);
       }   
     }
   
-    for(var key in addr) {
-      var val = addr[key]; 
+    for(var key in url) {
+      var val = url[key]; 
       if(x) { //checks if  url address is in the list already
         if (key === x) {
           data.obj.original_url = key;
@@ -72,13 +73,13 @@ MongoClient.connect(url, function (err, db) {
     console.log(urlLib)
   }
 
-  for (var i = 0; i < addrTwo.length; i++) {
-    mapquest(addrTwo[i]);
-  }
+  //  for (var i = 0; i < addrTwo.length; i++) {
+  mapquest(url);
+  // }
   console.log(data.obj)
           
-  data.obj.original = "null";
-  data.obj.shortened = "null";
+  //data.obj.original = "null";
+  //data.obj.shortened = "null";
   res.json(data.obj);
 });
     //Close connection
