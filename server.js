@@ -4,7 +4,7 @@ var express = require('express');
 //var MongoClient = mongodb.MongoClient;
 var monurl = process.env.MONGOLAB_URI;
 var app = express();
-
+var db = "mongodb://localhost:27017/urlLib";
 // http://expressjs.com/en/starter/static-files.html
 //app.use(express.static('public'));
 app.use('/public', express.static(process.cwd() + '/public'));
@@ -15,20 +15,28 @@ app.get("/", function (request, response) {
 });
 
 
-// Use connect method to connect to the Server
-MongoClient.connect(monurl, function (err, db) {
+MongoClient.connect(db, function (err, db) {
   if (err) {
-    console.log('Unable to connect to the mongoDB server. Error:', err);
+    console.log('Unable to connect to the DB server. Error:', err);
   } else {
-    console.log('Connection established...');  
- /* 
+    console.log('Connection established...'); 
+  }
   db.createCollection("urlLib", function(err, res) {
     if (err) {
       console.log('Unable to connect to the mongoDB server. Error:', err);
     } else {
       console.log("Collection created..");
     }
-  });*/  
+  });
+});
+
+// Use connect method to connect to the Server
+MongoClient.connect(monurl, function (err, db) {
+  if (err) {
+    console.log('Unable to connect to the mongoDB server. Error:', err);
+  } else {
+    console.log('Connection established...');  
+
     // do some work here with the database.
     app.get("/*", function (req, res) {
       var url = req.params[0];
