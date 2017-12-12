@@ -4,11 +4,9 @@ var express = require('express');
 var MongoClient = mongodb.MongoClient;
 var url = process.env.MONGOLAB_URI;
 var app = express();
-var obj = {
-  "original" : "",
-  "shortened" : ""
-}
-
+var obj = new Object();
+var urlLib = new Object();
+var str = "abcde0fghij1klmno2pqrst3uvwxy4zABCD5EFGHI6JKLMN7OPQRS8TUVWX9YZ";
 // Use connect method to connect to the Server
   MongoClient.connect(url, function (err, db) {
   if (err) {
@@ -17,7 +15,19 @@ var obj = {
     console.log('Connection established...');
     // do some work here with the database.
     app.get("/*", function (req, res) {
-  console.log(req.params, obj)
+    console.log(req.params, obj)
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
   obj.original = "null";
   obj.shortened = "null";
   res.json(obj);
