@@ -6,7 +6,7 @@ var app = express();
 
       var urlLib = new Object(); // this creates a db for the url library
       var data = new Object(); // creates an db for the string hash and return url query
-      //data.obj = new Object(); // return the results of the url query(orig_url and short_url)
+      data.obj = new Object(); // return the results of the url query(orig_url and short_url)
       data.str = "abcde0fghij1klmno2pqrst3uvwxy4zABCD5EFGHI6JKLMN7OPQRS8TUVWX9YZ";  // string hash for random()
 //var db = "mongodb://localhost:27017/urlLib";
 // http://expressjs.com/en/starter/static-files.html
@@ -17,23 +17,6 @@ app.use('/public', express.static(process.cwd() + '/public'));
 app.get("/", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
-
-/*
-MongoClient.connect(db, function (err, db) {
-  if (err) {
-    console.log('Unable to connect to the DB server. Error:', err);
-  } else {
-    console.log('Connection established...'); 
-  }
-  db.createCollection("urlLib", function(err, res) {
-    if (err) {
-      console.log('Unable to connect to the mongoDB server. Error:', err);
-    } else {
-      console.log("Collection created..");
-    }
-  });
-});
-*/
 
 // Use connect method to connect to the Server
 Mongo.connect(monurl, function (err, db) {
@@ -49,7 +32,7 @@ Mongo.connect(monurl, function (err, db) {
 
   // function to store and check db for url query and return results    
   function mapquest(x, y) {
-    data.obj = new Object();
+
     // creates a random string to build the shortened url
     var randomURL = function(z){
       var short = "sho.rt/",
@@ -63,6 +46,7 @@ Mongo.connect(monurl, function (err, db) {
       
       if (isGood) {  
         urlLib[z.toString()] = short; //logs query to url library
+        console.log(urlLib)
         data.obj.original_url = z;
         data.obj.shortened_url = short;
         res.json(data.obj);
@@ -84,14 +68,13 @@ Mongo.connect(monurl, function (err, db) {
         for(var key in urlLib) {
           var val = urlLib[key];           
           if (key === x) { 
-            
+            data.obj.original_url.clear();
             data.obj.original_url = key;
             data.obj.short_url = val;
-            console.log(urlLib);
             res.json(data.obj);
           }       
         }
-      }
+      } 
       randomURL(x);
     }
     
@@ -122,6 +105,23 @@ var listener = app.listen(process.env.PORT, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
 
+
+/*
+MongoClient.connect(db, function (err, db) {
+  if (err) {
+    console.log('Unable to connect to the DB server. Error:', err);
+  } else {
+    console.log('Connection established...'); 
+  }
+  db.createCollection("urlLib", function(err, res) {
+    if (err) {
+      console.log('Unable to connect to the mongoDB server. Error:', err);
+    } else {
+      console.log("Collection created..");
+    }
+  });
+});
+*/
 
 /*
 app.get("/:anyurl", function (req, res) {
