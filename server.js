@@ -71,14 +71,13 @@ Mongo.connect(monurl, function (err, db) {
       }   
     }
   
-    if(urlLib.hasOwnProperty(key)) {
+    if(urlLib.hasOwnProperty(x) || y) {
       for(var key in urlLib) {
         var val = urlLib[key]; 
-      
+    
         if(x) { //checks if  url address is in the list already
           console.log(x)
-          if (x === key) {
-            console.log(key, x, "equals")
+          if (x === key) {            
             data.obj.original_url = key;
             data.obj.short_url = val;
             res.json(data.obj);
