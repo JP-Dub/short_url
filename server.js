@@ -40,7 +40,8 @@ Mongo.connect(monurl, function (err, db) {
        return true;
     }
     
-    var postData = function(log, short, url) {
+    var postData = function(log, url, short) {
+      console.log(log, url, short)
       if(log) {
        urlLib[url] = short; //logs query to url library
       }
@@ -65,11 +66,11 @@ Mongo.connect(monurl, function (err, db) {
             randomURL(z);
           }              
          }
-        console.log("trig 4")
-         return postData(true, short);
+        console.log("trig 4 no shortened url found")
+         return postData(true, z, short);
         }  
-      console.log("trig 3")
-      postData(true, short, z);
+      console.log("trig 3 no lib")
+      postData(true, z, short);
     } 
      
     //checks if  original url address is in the db already
@@ -77,13 +78,13 @@ Mongo.connect(monurl, function (err, db) {
       for(var key in urlLib) {            
         if (key === url) {
           console.log("post url 1")
-          postData(false, urlLib[key], url)
+          postData(false, url, urlLib[key])
         }        
       } 
       console.log("trig 2");
       randomURL(url);
     } 
-    console.log("trig 1");
+    console.log("trig 1 no lib");
     randomURL(url);
   };
 
