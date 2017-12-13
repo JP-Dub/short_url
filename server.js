@@ -29,10 +29,11 @@ Mongo.connect(monurl, function (err, db) {
  
   app.get("/*", function (req, res) {
     var url = req.params[0];
-    if(!validUrl(url)) {
-      console.log("it no good")
-      res.end(url + " is not a valid URL!");
-    }
+    const { URL } = require('url');
+const myURL =
+  //new URL('https://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash');
+    new URL(url);
+    console.log(myURL)
     
       
     // function to store and check db for url query and return results    
