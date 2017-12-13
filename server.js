@@ -1,14 +1,15 @@
 // init project
 var Mongo = require('mongodb').MongoClient;
 var express = require('express');
+var validUrl = require('valid-url');
 var monurl = process.env.MONGOLAB_URI;
 var app = express();
 
-      var urlLib = new Object(); // this creates a db for the url library
-      var data = new Object(); // creates an db for the string hash and return url query
+var urlLib = new Object(), // this creates a db for the url library
+      data = new Object(); // creates an db for the string hash and return url query
       data.obj = new Object(); // return the results of the url query(orig_url and short_url)
       data.str = "abcde0fghij1klmno2pqrst3uvwxy4zABCD5EFGHI6JKLMN7OPQRS8TUVWX9YZ";  // string hash for random()
-//var db = "mongodb://localhost:27017/urlLib";
+
 // http://expressjs.com/en/starter/static-files.html
 //app.use(express.static('public'));
 app.use('/public', express.static(process.cwd() + '/public'));
@@ -28,6 +29,11 @@ Mongo.connect(monurl, function (err, db) {
  
   app.get("/*", function (req, res) {
     var url = req.params[0];
+    if(validUrl.isUri(url)) {
+      console.log("error")
+      return res.end(url + " is not a valid URL!");
+    }
+    
       
     // function to store and check db for url query and return results    
     function mapquest(url) {

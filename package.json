@@ -4,15 +4,16 @@
   "description": "FCC Backend Challenge: URL Shortener Microservice",
   "main": "server.js",
   "dependencies": {
+    "express": "^4.16.2",
     "mongodb": "^3.0.0-rc0",
-    "express": "^4.16.2"
+    "valid-url": "^1.0.9"
   },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
-    "engines": {
+  "engines": {
     "node": "8.x"
   },
   "repository": {
