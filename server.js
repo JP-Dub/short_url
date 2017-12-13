@@ -71,7 +71,8 @@ Mongo.connect(monurl, function (err, db) {
       }   
     }
   
-    if(urlLib.hasOwnProperty(x) || y) {
+    if(urlLib.hasOwnProperty(url) || y) {
+      
       for(var key in urlLib) {
         var val = urlLib[key]; 
     
@@ -102,9 +103,6 @@ mapquest(url);
     //Close connection
     db.close();
 });
-
-
-
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
