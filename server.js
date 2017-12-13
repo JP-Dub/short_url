@@ -31,7 +31,10 @@ Mongo.connect(monurl, function (err, db) {
     var url = req.params[0];
     
     if(!validUrl.isUri(url)) {
-      res.send(url + " this doesn't appear to be a valid URL!")
+      var error = {};
+      error.Error = url + " doesn't appear to be a valid URL";
+      res.json(error);
+      return;
     }
       
     // function to store and check db for url query and return results    
