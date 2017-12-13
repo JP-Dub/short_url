@@ -1,7 +1,7 @@
 // init project
 var Mongo = require('mongodb').MongoClient;
 var express = require('express');
-var validUrl = require('valid-url');
+var isUrl = require('url');
 var monurl = process.env.MONGOLAB_URI;
 var app = express();
 
@@ -29,9 +29,9 @@ Mongo.connect(monurl, function (err, db) {
  
   app.get("/*", function (req, res) {
     var url = req.params[0];
-    if(validUrl.isUri(url)) {
-      console.log("error")
-      return res.end(url + " is not a valid URL!");
+    if(!validUrl(url)) {
+      console.log("it no good")
+      res.end(url + " is not a valid URL!");
     }
     
       
