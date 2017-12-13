@@ -28,7 +28,7 @@ Mongo.connect(monurl, function (err, db) {
  
   app.get("/*", function (req, res) {
       var url = req.params[0];
-      var short ="sho.rt/";
+      
   // function to store and check db for url query and return results    
   function mapquest(url) {
     
@@ -40,19 +40,19 @@ Mongo.connect(monurl, function (err, db) {
        return true;
     }
     
-    var postData = function(log, short) {
+    var postData = function(log, short, url) {
       if(log) {
-       urlLib[url.toString()] = short; //logs query to url library
+       urlLib[url] = short; //logs query to url library
       }
        data.obj.original_url = url;
        data.obj.shortened_url = short;
-       console.log("final")
+       console.log("final", urlLib)
        res.json(data.obj);
     }
 
     // creates a random string to build the shortened url
     var randomURL = function(z){
-      var str = data.str;
+      var short ="sho.rt/", str = data.str;
       for (var i = 0; i < 6; i++) {
         short += str[Math.floor(Math.random() * str.length)];
       }
@@ -65,18 +65,19 @@ Mongo.connect(monurl, function (err, db) {
             randomURL(z);
           }              
          }
-        console.log("trig 3")
-        postData(true, short);
+        console.log("trig 4")
+         return postData(true, short);
         }  
-      console.log("trig 4")
-      postData(true, short);
+      console.log("trig 3")
+      postData(true, short, z);
     } 
      
     //checks if  original url address is in the db already
     if(!isEmpty()) {
       for(var key in urlLib) {            
         if (key === url) {
-          postData(false)
+          console.log("post url 1")
+          postData(false, urlLib[key], url)
         }        
       } 
       console.log("trig 2");
