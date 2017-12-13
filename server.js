@@ -63,7 +63,7 @@ Mongo.connect(monurl, function (err, db) {
       return true;
     }
         
-    if(x) { //checks if  original url address is in the db already
+    if(x !== null) { //checks if  original url address is in the db already
       if(!isEmpty()) {
         for(var key in urlLib) {
           //var val = urlLib[key];           
@@ -72,8 +72,9 @@ Mongo.connect(monurl, function (err, db) {
             data.obj.original_url = key;
             data.obj.shortened_url = urlLib[key];
             res.json(data.obj);
-          }       
+          } 
         }
+        randomURL(x);
       } 
       randomURL(x);
     }
