@@ -25,8 +25,7 @@ Mongo.connect(monurl, function (err, db) {
   } else {
     console.log('Connection established...');  
   }
-
-  
+ 
   app.get("/*", function (req, res) {
       var url = req.params[0];
       var short;
@@ -78,16 +77,16 @@ Mongo.connect(monurl, function (err, db) {
     //checks if  original url address is in the db already
     if(!isEmpty()) {
       for(var key in urlLib) {            
-        if (key !== url) {  
-          randomURL(url);
-        } else {
+        if (key !== url) {
           data.obj.original_url = key;
           data.obj.shortened_url = urlLib[key];
           res.json(data.obj);
-        }
-       } 
-    }        
-    
+        } else {
+          randomURL(url);
+        }        
+      }     
+    } 
+    randomURL(url);
     };
 
 mapquest(url);
