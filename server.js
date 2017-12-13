@@ -48,10 +48,10 @@ Mongo.connect(monurl, function (err, db) {
     app.get("/*", function (req, res) {
       var url = req.params[0];
 
-      
+      console.log(url)
   // function to store and check db for url query and return results    
   function mapquest(x, y) {
-    
+    console.log(x,y)
     // creates a random string to build the shortened url
     var randomURL = function(z){
       var short = "sho.rt/",
@@ -81,34 +81,34 @@ Mongo.connect(monurl, function (err, db) {
         }
       return true;
     }
-    
-   // if(isEmpty() || y) {
-      //console.log(isEmpty(), y)
-      
-    for(var key in urlLib) {
-      var val = urlLib[key]; 
-    
-        if(x) { //checks if  url address is in the list already
-          console.log(x)
+        
+    if(x) { //checks if  url address is in the list already
+      if(isEmpty()) {
+        for(var key in urlLib) {
+          var val = urlLib[key];           
           if (key === x) {            
             data.obj.original_url = key;
             data.obj.short_url = val;
             res.json(data.obj);
           }       
         }
-    
-        if(y) { //checkURL
-          if (y !== val) {
-            var value = true;
-          } else {  
-            value = false;
-          }
-          return value;
-        } 
+        randomURL(x);
       }
-    //}
-    randomURL(x);
-    };
+    }
+    
+    if(y) { //checkURL
+      for(var key in urlLib) {
+        var val = urlLib[key];  
+         if (y !== val) {
+          var value = true;
+        } else {  
+          value = false;
+        }
+        return value;
+        }
+      randomURL(x);
+    }        
+ };
 
 mapquest(url);
 });
