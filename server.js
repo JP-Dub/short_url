@@ -34,11 +34,11 @@ Mongo.connect(monurl, function (err, db) {
     
     var isEmpty = function() {
       for(var key in urlLib) {
-        if(urlLib.hasOwnProperty(key))
+        if(urlLib.hasOwnProperty(key)) 
          return false;
-        }
-       return true;
-    }
+        } 
+        return true;
+      }
     
     var postData = function(log, url, short) {
       console.log(log, url, short)
@@ -59,7 +59,7 @@ Mongo.connect(monurl, function (err, db) {
       }
      //  checks results for url match and returns the results   
      
-      if(!isEmpty()) {//checks if short url address is in the db already
+      if(!isEmpty) {//checks if short url address is in the db already
         for(var key in urlLib) {
           var val = urlLib[key];  
           if (short === val) {
@@ -72,7 +72,7 @@ Mongo.connect(monurl, function (err, db) {
       console.log("trig 3 no lib")
       postData(true, z, short);
     } 
-     
+     console.log(isEmpty(), "isEmpty")
     //checks if  original url address is in the db already
     if(!isEmpty()) {
       for(var key in urlLib) {            
