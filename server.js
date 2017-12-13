@@ -61,7 +61,7 @@ Mongo.connect(monurl, function (err, db) {
       //  checks results for url match and returns the results   
       var isGood = mapquest(null, short);
       if (isGood) {  
-        urlLib[z.toString()] = short; //logs query to url library
+        urlLib[z] = short; //logs query to url library
         console.log(urlLib)
         data.obj.original_url = z;
         data.obj.shortened_url = short;
@@ -71,8 +71,16 @@ Mongo.connect(monurl, function (err, db) {
       }   
     }
   
-    if(urlLib.hasOwnProperty(url) || y) {
-      
+    var isEmpty = function() {
+      for(var key in urlLib) {
+        if(urlLib.hasOwnProperty(key))
+            return false;
+        }
+      return true;
+    }
+    
+    if(isEmpty() || y) {
+      console.log(isEmpty(), y)
       for(var key in urlLib) {
         var val = urlLib[key]; 
     
