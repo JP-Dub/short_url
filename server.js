@@ -27,76 +27,67 @@ Mongo.connect(monurl, function (err, db) {
   }
  
   app.get("/*", function (req, res) {
-      var url = req.params[0];
+    var url = req.params[0];
       
-  // function to store and check db for url query and return results    
-  function mapquest(url) {
-    
-    var isEmpty = function() {
-      for(var key in urlLib) {
-        if(urlLib.hasOwnProperty(key)) 
-         return false;
-        } 
+    // function to store and check db for url query and return results    
+    function mapquest(url) {
+
+      var isEmpty = function() {
+        for(var key in urlLib) {
+          if(urlLib.hasOwnProperty(key)) 
+            return false;
+          } 
         return true;
       }
     
-    var postData = function(log, url, short) {
-      console.log(log, url, short)
-      if(log) {
-       urlLib[url] = short; //logs query to url library
+      var postData = function(log, url, short) {
+        if(log) {
+          urlLib[url] = short; //logs query to url library
+        }
+         data.obj.original_url = url;
+         data.obj.shortened_url = short;
+         res.json(data.obj);
       }
-       data.obj.original_url = url;
-       data.obj.shortened_url = short;
-       console.log("final", urlLib)
-       res.json(data.obj);
-    }
 
-    // creates a random string to build the shortened url
-    var randomURL = function(z){
-      var short ="sho.rt/", str = data.str;
-      for (var i = 0; i < 6; i++) {
-        short += str[Math.floor(Math.random() * str.length)];
+      // creates a random string to build the shortened url
+      var randomURL = function(z){
+        var short ="sho.rt/", str = data.str;
+        for (var i = 0; i < 6; i++) {
+          short += str[Math.floor(Math.random() * str.length)];
+        }
+         
+        if(!isEmpty()) {//checks if short url address is in the db already
+          for(var key in urlLib) {
+            var val = urlLib[key];  
+            if (short === val) {
+              randomURL(z);
+              return;
+            }              
+          }        
+          postData(true, z, short);
+          } else { 
+            postData(true, z, short);
+          }
+      } 
+      
+      //checks if  original url address is in the db already
+      if(!isEmpty()) {
+        for(var key in urlLib) {            
+          if (key === url) {
+           postData(false, url, urlLib[key]); 
+           return;
+          }      
+        }
+        randomURL(url);       
+      } else {
+        randomURL(url);
       }
-     //  checks results for url match and returns the results   
-     
-      if(!isEmpty()) {//checks if short url address is in the db already
-        for(var key in urlLib) {
-          var val = urlLib[key];  
-          if (short === val) {
-            console.log("found duplicate shorts")
-            randomURL(z);
-            return;
-          }              
-         }
-        console.log("trig 4 post no repeats found")
-        postData(true, z, short);
-        }  
-      console.log("trig 3 post no lib")
-      postData(true, z, short);
-    } 
-     console.log(isEmpty(), "isEmpty")
-    //checks if  original url address is in the db already
-    if(!isEmpty()) {
-      for(var key in urlLib) {            
-        if (key === url) {
-         console.log("post url 1");
-         postData(false, url, urlLib[key]); 
-          return;
-        }      
-      }
-      console.log("trig 2");
-      randomURL(url);
-       
-    } else {
-    console.log("trig 1 no lib");
-    randomURL(url);
-    }
-  };
+    };
 
-mapquest(url);
-});
-    //Close connection
-    db.close();
+  mapquest(url);
+  });
+  //Close connection
+  db.close();
 });
 
 // listen for requests :)
