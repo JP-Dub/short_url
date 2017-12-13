@@ -29,9 +29,30 @@ Mongo.connect(monurl, function (err, db) {
   
   app.get("/*", function (req, res) {
       var url = req.params[0];
-
+      var short;
   // function to store and check db for url query and return results    
   function mapquest(x) {
+    
+    var isEmpty = function() {
+      for(var key in urlLib) {
+        if(urlLib.hasOwnProperty(key))
+         return false;
+        }
+       return true;
+    }
+    
+    //checks if  original url address is in the db already
+    if(!isEmpty()) {
+      for(var key in urlLib) {            
+        if (key !== x) {  
+          randomURL(x);
+        } else {
+          data.obj.original_url = key;
+          data.obj.shortened_url = urlLib[key];
+          res.json(data.obj);
+        }
+       } 
+    }        
 
     // creates a random string to build the shortened url
     var randomURL = function(z){
@@ -39,15 +60,15 @@ Mongo.connect(monurl, function (err, db) {
             str = data.str;
       for (var i = 0; i < 6; i++) {
         short += str[Math.floor(Math.random() * str.length)];
-      }
-      
+      }      
+    }
       //  checks results for url match and returns the results   
       var isGood = function() {
-        if(y) {
+        if(short) {
           if(!isEmpty()) {//checks if short url address is in the db already
             for(var key in urlLib) {
               var val = urlLib[key];  
-              if (y === val) {
+              if (short === val) {
                 return false;
               } 
               return true;
@@ -58,38 +79,15 @@ Mongo.connect(monurl, function (err, db) {
       }
       
       if (isGood) {  
-        urlLib[z.toString()] = short; //logs query to url library
-        data.obj.original_url = z;
+        urlLib[x.toString()] = short; //logs query to url library
+        data.obj.original_url = x;
         data.obj.shortened_url = short;
         console.log(urlLib, data.obj)
         res.json(data.obj);
       } else {
-        randomURL(z); // if random() duplicates, a new random() hash string is created
+        randomURL(x); // if random() duplicates, a new random() hash string is created
       }   
-    }
-  
-    var isEmpty = function() {
-      for(var key in urlLib) {
-        if(urlLib.hasOwnProperty(key))
-          return false;
-        }
-      return true;
-    }
-        
-     //checks if  original url address is in the db already
-      if(!isEmpty()) {
-        for(var key in urlLib) {            
-          if (key !== x) {  
-            randomURL(x);
-          } else {
-            data.obj.original_url = key;
-            data.obj.shortened_url = urlLib[key];
-            res.json(data.obj);
-          }
-         } 
-      } 
-     
-      randomURL(x);
+    
     };
     /*
     if(y) {
