@@ -1,7 +1,7 @@
 // init project
 var Mongo = require('mongodb').MongoClient;
 var express = require('express');
-var isUrl = require('url');
+//var isUrl = require('url');
 var monurl = process.env.MONGOLAB_URI;
 var app = express();
 
@@ -34,7 +34,9 @@ const myURL =
   //new URL('https://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash');
     new URL(url);
     console.log(myURL)
-    
+    if(!myURL) {
+      res.send(url + " is not a valid URL!");
+    }
       
     // function to store and check db for url query and return results    
     function mapquest(url) {
