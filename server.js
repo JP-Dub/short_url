@@ -46,7 +46,7 @@ Mongo.connect(monurl, function (err, db) {
       }
        data.obj.original_url = url;
        data.obj.shortened_url = short;
-       console.log(urlLib, data.obj)
+       console.log("final")
        res.json(data.obj);
     }
 
@@ -65,8 +65,10 @@ Mongo.connect(monurl, function (err, db) {
             randomURL(z);
           }              
          }
+        console.log("trig 3")
         postData(true, short);
         }  
+      console.log("trig 4")
       postData(true, short);
     } 
      
