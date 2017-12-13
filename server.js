@@ -65,16 +65,14 @@ Mongo.connect(monurl, function (err, db) {
         
     if(x !== null) { //checks if  original url address is in the db already
       if(!isEmpty()) {
-        for(var key in urlLib) {
-          //var val = urlLib[key];           
+        for(var key in urlLib) {            
           if (key === x) {  
              console.log(key, x)
             data.obj.original_url = key;
             data.obj.shortened_url = urlLib[key];
             res.json(data.obj);
           } 
-        }
-        randomURL(x);
+        } 
       } 
       randomURL(x);
     }
