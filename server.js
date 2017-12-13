@@ -3,6 +3,11 @@ var Mongo = require('mongodb').MongoClient;
 var express = require('express');
 var monurl = process.env.MONGOLAB_URI;
 var app = express();
+
+      var urlLib = new Object(); // this creates a db for the url library
+      var data = new Object(); // creates an db for the string hash and return url query
+      data.obj = new Object(); // return the results of the url query(orig_url and short_url)
+      data.str = "abcde0fghij1klmno2pqrst3uvwxy4zABCD5EFGHI6JKLMN7OPQRS8TUVWX9YZ";  // string hash for random()
 //var db = "mongodb://localhost:27017/urlLib";
 // http://expressjs.com/en/starter/static-files.html
 //app.use(express.static('public'));
@@ -42,10 +47,7 @@ Mongo.connect(monurl, function (err, db) {
     // do some work here with the database.
     app.get("/*", function (req, res) {
       var url = req.params[0];
-      var urlLib = new Object(); // this creates a db for the url library
-      var data = new Object(); // creates an db for the string hash and return url query
-      data.obj = new Object(); // return the results of the url query(orig_url and short_url)
-      data.str = "abcde0fghij1klmno2pqrst3uvwxy4zABCD5EFGHI6JKLMN7OPQRS8TUVWX9YZ";  // string hash for random()
+
       
   // function to store and check db for url query and return results    
   function mapquest(x, y) {
@@ -73,6 +75,7 @@ Mongo.connect(monurl, function (err, db) {
       var val = url[key]; 
       if(x) { //checks if  url address is in the list already
         if (key === x) {
+          console.log(key, x, "equals")
           data.obj.original_url = key;
           data.obj.short_url = val;
           res.json(data.obj);
