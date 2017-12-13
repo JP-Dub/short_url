@@ -42,7 +42,20 @@ Mongo.connect(monurl, function (err, db) {
       }
       
       //  checks results for url match and returns the results   
-      var isGood = mapquest(null, short);
+      var isGood = function() {
+        if(y) {
+          if(!isEmpty()) {//checks if short url address is in the db already
+            for(var key in urlLib) {
+              var val = urlLib[key];  
+              if (y === val) {
+                return false;
+              } 
+              return true;
+            }
+          }
+          return true;
+        } 
+      }
       
       if (isGood) {  
         urlLib[z.toString()] = short; //logs query to url library
@@ -66,17 +79,19 @@ Mongo.connect(monurl, function (err, db) {
     if(x !== null) { //checks if  original url address is in the db already
       if(!isEmpty()) {
         for(var key in urlLib) {            
-          if (key === x) {  
-             console.log(key, x)
+          if (key !== x) {  
+            randomURL(x);
+          } else {
             data.obj.original_url = key;
             data.obj.shortened_url = urlLib[key];
             res.json(data.obj);
-          } 
+          }
+         } 
         } 
       } 
       randomURL(x);
     }
-    
+    /*
     if(y) {
       if(!isEmpty()) {//checks if short url address is in the db already
         for(var key in urlLib) {
@@ -88,7 +103,7 @@ Mongo.connect(monurl, function (err, db) {
         }
       }
       return true;
-    }      
+    }*/      
   };
 
 mapquest(url);
