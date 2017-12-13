@@ -30,13 +30,14 @@ Mongo.connect(monurl, function (err, db) {
   app.get("/*", function (req, res) {
     var url = req.params[0];
     const { URL } = require('url');
-const myURL =
-  //new URL('https://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash');
-    new URL(url);
-    console.log(myURL)
-    if(!myURL) {
+    var myURL; 
+  //new URL('https://user:pass@sub.host.com:8080/p/a/t/h?query=string#hash');  
+    //console.log(myURL)
+    if(!new URL(url)) {
+      console.log('no good');
+      //myURL = URL(url);
       res.send(url + " is not a valid URL!");
-    }
+    } 
       
     // function to store and check db for url query and return results    
     function mapquest(url) {
