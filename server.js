@@ -71,28 +71,32 @@ Mongo.connect(monurl, function (err, db) {
       }   
     }
   
-    for(var key in url) {
-      var val = url[key]; 
-      if(x) { //checks if  url address is in the list already
-        if (key === x) {
-          console.log(key, x, "equals")
-          data.obj.original_url = key;
-          data.obj.short_url = val;
-          res.json(data.obj);
-        }       
-      }
-    
-      if(y) { //checkURL
-        if (y !== val) {
-          var value = true;
-        } else {  
-          value = false;
+    if(urlLib.hasOwnProperty(key)) {
+      for(var key in urlLib) {
+        var val = urlLib[key]; 
+      
+        if(x) { //checks if  url address is in the list already
+          console.log(x)
+          if (x === key) {
+            console.log(key, x, "equals")
+            data.obj.original_url = key;
+            data.obj.short_url = val;
+            res.json(data.obj);
+          }       
         }
-        return value;
-      } 
+    
+        if(y) { //checkURL
+          if (y !== val) {
+            var value = true;
+          } else {  
+            value = false;
+          }
+          return value;
+        } 
+      }
     }
-    randomURL(x);
-  };
+      randomURL(x);
+    };
 
 mapquest(url);
 });
