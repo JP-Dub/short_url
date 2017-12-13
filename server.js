@@ -59,17 +59,18 @@ Mongo.connect(monurl, function (err, db) {
       }
      //  checks results for url match and returns the results   
      
-      if(!isEmpty) {//checks if short url address is in the db already
+      if(!isEmpty()) {//checks if short url address is in the db already
         for(var key in urlLib) {
           var val = urlLib[key];  
           if (short === val) {
+            console.log("found duplicate shorts")
             randomURL(z);
           }              
          }
-        console.log("trig 4 no shortened url found")
+        console.log("trig 4 post no repeats found")
          return postData(true, z, short);
         }  
-      console.log("trig 3 no lib")
+      console.log("trig 3 post no lib")
       postData(true, z, short);
     } 
      console.log(isEmpty(), "isEmpty")
@@ -77,15 +78,18 @@ Mongo.connect(monurl, function (err, db) {
     if(!isEmpty()) {
       for(var key in urlLib) {            
         if (key === url) {
-          console.log("post url 1")
-          postData(false, url, urlLib[key])
-        }        
+          console.log("post url 1");
+          postData(false, url, urlLib[key]);
+        } else {
+          console.log("trig 2");
+       randomURL(url);
+        }       
       } 
-      console.log("trig 2");
-      randomURL(url);
-    } 
+      
+    } else {
     console.log("trig 1 no lib");
     randomURL(url);
+    }
   };
 
 mapquest(url);
