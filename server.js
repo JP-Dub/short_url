@@ -47,8 +47,8 @@ Mongo.connect(monurl, function (err, db) {
         short += str[Math.floor(Math.random() * str.length)];
       }
      //  checks results for url match and returns the results   
-     var isGood = function() {
-         if(!isEmpty()) {//checks if short url address is in the db already
+     
+      if(!isEmpty()) {//checks if short url address is in the db already
            for(var key in urlLib) {
              var val = urlLib[key];  
              if (short === val) {
@@ -60,18 +60,10 @@ Mongo.connect(monurl, function (err, db) {
        data.obj.shortened_url = short;
        console.log(urlLib, data.obj)
        res.json(data.obj);
-        }
-         return true;
-       } 
+      }  
+    } 
      
-    
-     if (isGood) {  
 
-     } else {
-       randomURL(url); // if random() duplicates, a new random() hash string is created
-     }       
-    }
-    
     //checks if  original url address is in the db already
     if(!isEmpty()) {
       for(var key in urlLib) {            
@@ -86,7 +78,7 @@ Mongo.connect(monurl, function (err, db) {
     } 
     console.log("trig 1");
     randomURL(url);
-    };
+  };
 
 mapquest(url);
 });
