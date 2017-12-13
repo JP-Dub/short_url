@@ -28,7 +28,7 @@ Mongo.connect(monurl, function (err, db) {
  
   app.get("/*", function (req, res) {
       var url = req.params[0];
-      var short;
+      var short ="sho.rt/";
   // function to store and check db for url query and return results    
   function mapquest(url) {
     
@@ -42,33 +42,31 @@ Mongo.connect(monurl, function (err, db) {
 
     // creates a random string to build the shortened url
     var randomURL = function(z){
-      var short = "sho.rt/",
-            str = data.str;
+      var str = data.str;
       for (var i = 0; i < 6; i++) {
         short += str[Math.floor(Math.random() * str.length)];
       }
      //  checks results for url match and returns the results   
      var isGood = function() {
-       if(short) {
          if(!isEmpty()) {//checks if short url address is in the db already
            for(var key in urlLib) {
              var val = urlLib[key];  
              if (short === val) {
-               return false;
-             } 
-             return true;
+               randomURL(z);
+             }              
            }
-         }
-         return true;
-       } 
-     }
-    
-     if (isGood) {  
        urlLib[url.toString()] = short; //logs query to url library
        data.obj.original_url = url;
        data.obj.shortened_url = short;
        console.log(urlLib, data.obj)
        res.json(data.obj);
+        }
+         return true;
+       } 
+     
+    
+     if (isGood) {  
+
      } else {
        randomURL(url); // if random() duplicates, a new random() hash string is created
      }       
@@ -77,15 +75,16 @@ Mongo.connect(monurl, function (err, db) {
     //checks if  original url address is in the db already
     if(!isEmpty()) {
       for(var key in urlLib) {            
-        if (key !== url) {
+        if (key === url) {
           data.obj.original_url = key;
           data.obj.shortened_url = urlLib[key];
           res.json(data.obj);
-        } else {
-          randomURL(url);
         }        
-      }     
+      } 
+      console.log("trig 2");
+      randomURL(url);
     } 
+    console.log("trig 1");
     randomURL(url);
     };
 
