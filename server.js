@@ -69,7 +69,7 @@ Mongo.connect(monurl, function (err, db) {
           var val = urlLib[key];           
           if (key === x) { 
             
-            data.obj.original_url = key;
+            data.obj.original_url = x;
             data.obj.short_url = val;
             res.json(data.obj);
           }       
@@ -80,15 +80,12 @@ Mongo.connect(monurl, function (err, db) {
     
     if(y) {
       if(!isEmpty()) {//checks if short url address is in the db already
-      for(var key in urlLib) {
-        var val = urlLib[key];  
-         if (y !== val) {
-           var value = true;
-          //return false;
-         } else {  
-           value = false;
-         }
-         return value;
+        for(var key in urlLib) {
+          var val = urlLib[key];  
+          if (y === val) {
+            return false;
+          } 
+          return true;
         }
       }
       return true;
