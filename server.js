@@ -58,7 +58,7 @@ Mongo.connect(monurl, function (err, db) {
     var isEmpty = function() {
       for(var key in urlLib) {
         if(urlLib.hasOwnProperty(key))
-            return false;
+          return false;
         }
       return true;
     }
@@ -66,11 +66,11 @@ Mongo.connect(monurl, function (err, db) {
     if(x) { //checks if  original url address is in the db already
       if(!isEmpty()) {
         for(var key in urlLib) {
-          var val = urlLib[key];           
-          if (key === x) { 
-            
-            data.obj.original_url = x;
-            data.obj.short_url = val;
+          //var val = urlLib[key];           
+          if (key === x) {  
+             console.log(key, x)
+            data.obj.original_url = key;
+            data.obj.shortened_url = urlLib[key];
             res.json(data.obj);
           }       
         }
