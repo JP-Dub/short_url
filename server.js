@@ -39,6 +39,14 @@ Mongo.connect(monurl, function (err, db) {
         }
        return true;
     }
+    
+    var postData = function(short) {
+       urlLib[url.toString()] = short; //logs query to url library
+       data.obj.original_url = url;
+       data.obj.shortened_url = short;
+       console.log(urlLib, data.obj)
+       res.json(data.obj);
+    }
 
     // creates a random string to build the shortened url
     var randomURL = function(z){
@@ -49,21 +57,17 @@ Mongo.connect(monurl, function (err, db) {
      //  checks results for url match and returns the results   
      
       if(!isEmpty()) {//checks if short url address is in the db already
-           for(var key in urlLib) {
-             var val = urlLib[key];  
-             if (short === val) {
-               randomURL(z);
-             }              
-           }
-       urlLib[url.toString()] = short; //logs query to url library
-       data.obj.original_url = url;
-       data.obj.shortened_url = short;
-       console.log(urlLib, data.obj)
-       res.json(data.obj);
-      }  
+        for(var key in urlLib) {
+          var val = urlLib[key];  
+          if (short === val) {
+            randomURL(z);
+          }              
+         }
+        postData(short);
+        }  
+      postData(short);
     } 
      
-
     //checks if  original url address is in the db already
     if(!isEmpty()) {
       for(var key in urlLib) {            
