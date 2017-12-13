@@ -46,9 +46,9 @@ Mongo.connect(monurl, function (err, db) {
       
       if (isGood) {  
         urlLib[z.toString()] = short; //logs query to url library
-        console.log(urlLib)
         data.obj.original_url = z;
         data.obj.shortened_url = short;
+        console.log(urlLib, data.obj)
         res.json(data.obj);
       } else {
         randomURL(z); // if random() duplicates, a new random() hash string is created
@@ -68,7 +68,7 @@ Mongo.connect(monurl, function (err, db) {
         for(var key in urlLib) {
           var val = urlLib[key];           
           if (key === x) { 
-            data.obj.original_url.clear();
+            
             data.obj.original_url = key;
             data.obj.short_url = val;
             res.json(data.obj);
@@ -83,11 +83,12 @@ Mongo.connect(monurl, function (err, db) {
       for(var key in urlLib) {
         var val = urlLib[key];  
          if (y !== val) {
-          var value = true;
-        } else {  
-          value = false;
-        }
-        return value;
+           var value = true;
+          //return false;
+         } else {  
+           value = false;
+         }
+         return value;
         }
       }
       return true;
