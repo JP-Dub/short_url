@@ -31,7 +31,7 @@ Mongo.connect(monurl, function (err, db) {
       var url = req.params[0];
 
   // function to store and check db for url query and return results    
-  function mapquest(x, y) {
+  function mapquest(x) {
 
     // creates a random string to build the shortened url
     var randomURL = function(z){
@@ -76,7 +76,7 @@ Mongo.connect(monurl, function (err, db) {
       return true;
     }
         
-    if(x !== null) { //checks if  original url address is in the db already
+     //checks if  original url address is in the db already
       if(!isEmpty()) {
         for(var key in urlLib) {            
           if (key !== x) {  
@@ -87,10 +87,10 @@ Mongo.connect(monurl, function (err, db) {
             res.json(data.obj);
           }
          } 
-        } 
       } 
+     
       randomURL(x);
-    }
+    };
     /*
     if(y) {
       if(!isEmpty()) {//checks if short url address is in the db already
@@ -104,7 +104,7 @@ Mongo.connect(monurl, function (err, db) {
       }
       return true;
     }*/      
-  };
+  //};
 
 mapquest(url);
 });
