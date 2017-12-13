@@ -6,7 +6,7 @@ var app = express();
 
       var urlLib = new Object(); // this creates a db for the url library
       var data = new Object(); // creates an db for the string hash and return url query
-      data.obj = new Object(); // return the results of the url query(orig_url and short_url)
+      //data.obj = new Object(); // return the results of the url query(orig_url and short_url)
       data.str = "abcde0fghij1klmno2pqrst3uvwxy4zABCD5EFGHI6JKLMN7OPQRS8TUVWX9YZ";  // string hash for random()
 //var db = "mongodb://localhost:27017/urlLib";
 // http://expressjs.com/en/starter/static-files.html
@@ -49,7 +49,7 @@ Mongo.connect(monurl, function (err, db) {
 
   // function to store and check db for url query and return results    
   function mapquest(x, y) {
-    
+    data.obj = new Object();
     // creates a random string to build the shortened url
     var randomURL = function(z){
       var short = "sho.rt/",
@@ -63,7 +63,6 @@ Mongo.connect(monurl, function (err, db) {
       
       if (isGood) {  
         urlLib[z.toString()] = short; //logs query to url library
-        console.log(urlLib)
         data.obj.original_url = z;
         data.obj.shortened_url = short;
         res.json(data.obj);
@@ -84,19 +83,20 @@ Mongo.connect(monurl, function (err, db) {
       if(!isEmpty()) {
         for(var key in urlLib) {
           var val = urlLib[key];           
-          if (key === x) {            
+          if (key === x) { 
+            
             data.obj.original_url = key;
             data.obj.short_url = val;
+            console.log(urlLib);
             res.json(data.obj);
           }       
         }
-        //randomURL(x);
       }
       randomURL(x);
     }
     
     if(y) {
-      if(!isEmpty()) {//checkURL
+      if(!isEmpty()) {//checks if short url address is in the db already
       for(var key in urlLib) {
         var val = urlLib[key];  
          if (y !== val) {
@@ -108,9 +108,7 @@ Mongo.connect(monurl, function (err, db) {
         }
       }
       return true;
-    }
-    
-    
+    }      
   };
 
 mapquest(url);
