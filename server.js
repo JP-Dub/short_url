@@ -4,6 +4,7 @@ var Mongo = require('mongodb').MongoClient;
 var express = require('express');
 var validUrl = require('valid-url');
 var mongoURL = process.env.MONGOLAB_URI;
+var db = require("./data/db.js");
 var app = express();
 
 var urlLib = new Object(), // this creates a db to store query session
@@ -28,7 +29,7 @@ Mongo.connect(mongoURL, function (err, db) {
     console.log('Connection established...');  
   }
   
-  var songs = db.collection('urlLib');
+  //var songs = db.collection('urlLib');
  
   app.get("/*", function (req, res, next) {
     var url = req.params[0];
