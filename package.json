@@ -6,9 +6,9 @@
   "dependencies": {
     "express": "^4.16.2",
     "is-url": "^1.2.2",
+    "mongod": "^2.0.0",
     "mongodb": "^3.0.0-rc0",
-    "valid-url": "^1.0.9",
-    "mongod": "^2.0.0"
+    "valid-url": "^1.0.9"
   },
   "devDependencies": {},
   "scripts": {
