@@ -104,8 +104,8 @@ Mongo.connect(monurl, function (err, db) {
   
 });
 
-app.post("/*", function (req, res, next) {
-  console.log(req.params, "found it!")
+app.get("/*", function (req, res, next) {
+  console.log(req.original_url, "found it!")
   
 });
 
