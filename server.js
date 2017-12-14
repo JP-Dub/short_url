@@ -6,6 +6,7 @@ var validUrl = require('valid-url');
 var mongoURL = process.env.MONGOLAB_URI;
 var db = require("./data/db.js");
 var app = express();
+var assert = require('assert');
 
 var urlLib = new Object(), // this creates a db to store query session
       data = new Object(); // creates an db for the string hash (data.str) and return url query in the data.obj
@@ -29,7 +30,21 @@ Mongo.connect(mongoURL, function(err, db) {
     console.log('Mongo connection established...');  
   }
   
-  var songs = db.insert('urlLib');
+  //var songs = db.insert('urlLib');
+  var insertDocuments = function(db, callback) {
+  // Get the documents collection
+  var collection = db.collection('documents');
+  // Insert some documents
+  collection.insertMany([
+    {a : 1}, {a : 2}, {a : 3}
+  ], function(err, result) {
+    assert.equal(err, null);
+    assert.equal(3, result.result.n);
+    assert.equal(3, result.ops.length);
+    console.log("Inserted 3 documents into the collection");
+    callback(result);
+  });
+}
  
   app.get("/*", function (req, res, next) {
     var url = req.params[0];
