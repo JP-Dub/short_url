@@ -1,5 +1,6 @@
 // init project
 var Mongo = require('mongodb').MongoClient;
+//var http = require('http');
 var express = require('express');
 var validUrl = require('valid-url');
 var monurl = process.env.MONGOLAB_URI;
@@ -27,7 +28,7 @@ Mongo.connect(monurl, function (err, db) {
     console.log('Connection established...');  
   }
  
-  app.get("/*", function (req, res) {
+  app.get("/*", function (req, res, next) {
     var url = req.params[0];
     
     // checks if url query is a valid url
@@ -96,10 +97,18 @@ Mongo.connect(monurl, function (err, db) {
     };
 
   mapquest(url);
+    next();
   });
   //Close connection
   db.close();
+  
 });
+
+app.post("/*", function (req, res, next) {
+  console.log(req.params, "found it!")
+  
+});
+
 
 // listen for requests 
 var listener = app.listen(process.env.PORT, function () {
