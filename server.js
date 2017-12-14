@@ -4,19 +4,11 @@ var express = require('express');
 var validUrl = require('valid-url');
 var mongoURL = process.env.MONGOLAB_URI;
 var app = express();
-var mongod = require('mongod');
 
 var urlLib = new Object(), // this creates a db to store query session
       data = new Object(); // creates an db for the string hash (data.str) and return url query in the data.obj
       data.obj = new Object(); // store the results of the url query(orig_url and short_url)
       data.str = "abcde0fghij1klmno2pqrst3uvwxy4zABCD5EFGHI6JKLMN7OPQRS8TUVWX9YZ";  // string hash for random()
-
-var server = new mongod ({
-  bin: "./data",
-  conf: "./data",
-  dbpath: "./data",
-  nojournal : "false"
-})
 
 
 // http://expressjs.com/en/starter/static-files.html
@@ -35,12 +27,7 @@ MongoClient.connect(mongoURL, function(err, db) {
   } else {
     console.log('Mongo connection established...');  
   }
-  server.open((err) => {
-  if (err === null) {
-   console.log("mongod running") // You may now connect a client to the MongoDB
-   // server bound to port 27017.
-  }
-});
+
   //db.createCollection("urlLib");
   //var lib = db.collection("urlLib");
 
