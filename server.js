@@ -3,8 +3,12 @@ var Mongo = require('mongodb').MongoClient;
 //var http = require('http');
 var express = require('express');
 var validUrl = require('valid-url');
-var monurl = process.env.MONGOLAB_URI;
+//var monurl = process.env.MONGOLAB_URI;
 var app = express();
+
+// setup our datastore
+var datastore = require("./datastore").sync;
+datastore.initializeApp(app);
 
 var urlLib = new Object(), // this creates a db to store query session
       data = new Object(); // creates an db for the string hash (data.str) and return url query in the data.obj
@@ -21,7 +25,7 @@ app.get("/", function (request, response) {
 });
 
 // Use connect method to connect to the Server
-Mongo.connect(monurl, function (err, db) {
+Mongo.connect(datastore.MONGODB_URI, function (err, db) {
   if (err) {
     console.log('Unable to connect to the mongoDB server. Error:', err);
   } else {
