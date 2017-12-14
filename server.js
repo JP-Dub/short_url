@@ -29,7 +29,7 @@ Mongo.connect(mongoURL, function(err, db) {
     console.log('Mongo connection established...');  
   }
   
-  //var songs = db.collection('urlLib');
+  var songs = db.insert('urlLib');
  
   app.get("/*", function (req, res, next) {
     var url = req.params[0];
