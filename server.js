@@ -97,15 +97,16 @@ Mongo.connect(monurl, function (err, db) {
     };
 
   mapquest(url);
-    next();
+    
   });
   //Close connection
   db.close();
   
 });
 
-app.get("/*", function (req, res, next) {
-  console.log(req.original_url, "found it!")
+app.get("/https://www.yahoo.com", function (req, res, next) {
+  res.redirect("https://www.yahoo.com")
+  console.log(req.url, "found it!")
   
 });
 
