@@ -22,7 +22,7 @@ app.get("/", function (request, response) {
 });
 
 // Use connect method to connect to the Server
-Mongo.connect(mongoURL, function (err, db) {
+Mongo.connect(mongoURL, function(err, db) {
   if (err) {
     console.log('Unable to connect to the mongoDB server. Error:', err);
   } else {
