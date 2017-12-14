@@ -26,7 +26,7 @@ Mongo.connect(mongoURL, function (err, db) {
   if (err) {
     console.log('Unable to connect to the mongoDB server. Error:', err);
   } else {
-    console.log('Connection established...');  
+    console.log('Mongo connection established...');  
   }
   
   //var songs = db.collection('urlLib');
