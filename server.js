@@ -5,9 +5,9 @@ var validUrl = require('valid-url');
 var monurl = process.env.MONGOLAB_URI;
 var app = express();
 
-var urlLib = new Object(), // this creates a db for the url library
-      data = new Object(); // creates an db for the string hash and return url query
-      data.obj = new Object(); // return the results of the url query(orig_url and short_url)
+var urlLib = new Object(), // this creates a db to store query session
+      data = new Object(); // creates an db for the string hash (data.str) and return url query in the data.obj
+      data.obj = new Object(); // store the results of the url query(orig_url and short_url)
       data.str = "abcde0fghij1klmno2pqrst3uvwxy4zABCD5EFGHI6JKLMN7OPQRS8TUVWX9YZ";  // string hash for random()
 
 // http://expressjs.com/en/starter/static-files.html
@@ -30,6 +30,7 @@ Mongo.connect(monurl, function (err, db) {
   app.get("/*", function (req, res) {
     var url = req.params[0];
     
+    // checks if url query is a valid url
     if(!validUrl.isUri(url)) {
       var error = {};
       error.Error = url + " doesn't appear to be a valid URL";
@@ -37,9 +38,10 @@ Mongo.connect(monurl, function (err, db) {
       return;
     }
       
-    // function to store and check db for url query and return results    
+    // function to check, create, log, and post url queries and results.     
     function mapquest(url) {
-
+      
+      // checks if urlLib is empty
       var isEmpty = function() {
         for(var key in urlLib) {
           if(urlLib.hasOwnProperty(key)) 
@@ -47,10 +49,10 @@ Mongo.connect(monurl, function (err, db) {
           } 
         return true;
       }
-    
+      // posts result to the screen
       var postData = function(log, url, short) {
         if(log) {
-          urlLib[url] = short; //logs query to url library
+          urlLib[url] = short; //logs query to url library(urlLib)
         }
          data.obj.original_url = url;
          data.obj.shortened_url = short;
@@ -63,18 +65,19 @@ Mongo.connect(monurl, function (err, db) {
         for (var i = 0; i < 6; i++) {
           short += str[Math.floor(Math.random() * str.length)];
         }
-         
-        if(!isEmpty()) {//checks if short url address is in the db already
+        
+        //checks if short url address is in the db already
+        if(!isEmpty()) {
           for(var key in urlLib) {
             var val = urlLib[key];  
             if (short === val) {
-              randomURL(z);
+              randomURL(z); // duplicate short url is found in the urlLib, creates a new string
               return;
             }              
           }        
-          postData(true, z, short);
+          postData(true, z, short); // if no duplicates are found in the urlLib, post data
           } else { 
-            postData(true, z, short);
+            postData(true, z, short); // if urlLib is empty, post data
           }
       } 
       
@@ -82,13 +85,13 @@ Mongo.connect(monurl, function (err, db) {
       if(!isEmpty()) {
         for(var key in urlLib) {            
           if (key === url) {
-           postData(false, url, urlLib[key]); 
+           postData(false, url, urlLib[key]); // if duplicate url query is found in the urlLib, return the results
            return;
           }      
         }
-        randomURL(url);       
+        randomURL(url); // no duplicates are found      
       } else {
-        randomURL(url);
+        randomURL(url); // the urlLib is empty
       }
     };
 
