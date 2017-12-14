@@ -1,13 +1,9 @@
 // init project
 var Mongo = require('mongodb').MongoClient;
-//var http = require('http');
 var express = require('express');
 var validUrl = require('valid-url');
-//var mongoURL = process.env.MONGOLAB_URI;
-var mongoURL = 'mongodb://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST+':'+process.env.DB_PORT+'/'+process.env.DB;
-var db = require("./data/db.js");
+var mongoURL = process.env.MONGOLAB_URI;
 var app = express();
-var assert = require('assert');
 
 var urlLib = new Object(), // this creates a db to store query session
       data = new Object(); // creates an db for the string hash (data.str) and return url query in the data.obj
@@ -30,8 +26,9 @@ Mongo.connect(mongoURL, function(err, db) {
   } else {
     console.log('Mongo connection established...');  
   }
-  db.createCollection("urlLib");
-  var lib = db.collection("urlLib");
+  
+  //db.createCollection("urlLib");
+  //var lib = db.collection("urlLib");
 
   app.get("/*", function (req, res, next) {
     var url = req.params[0];
@@ -115,11 +112,12 @@ app.get("/https://www.yahoo.com", function (req, res, next) {
   
 });
 
-
 // listen for requests 
 var listener = app.listen(process.env.PORT, function () {
   console.log('Your app is listening on port ' + listener.address().port);
 });
+
+//mongod --port 27017 --bind_ip=$IP --dbpath=./data --rest "$@"
 
 
 /*
