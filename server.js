@@ -1,8 +1,8 @@
 // init project
 var MongoClient = require('mongodb').MongoClient;
-var express = require('express');
-var validUrl = require('valid-url');
 var mongoURL = process.env.MONGOLAB_URI;
+var validUrl = require('valid-url');
+var express = require('express');
 var app = express();
 
 var urlLib = new Object(), // this creates a db to store query session
