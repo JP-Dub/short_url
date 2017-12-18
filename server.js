@@ -108,7 +108,7 @@ MongoClient.connect(mongoURL, function(err, client) {
         short += str[Math.floor(Math.random() * str.length)];
       }
       
-      collection.insertOne({original_url: url, shortened_url: short}, function(err, urlLib) {
+      collection.insert({original_url: url, shortened_url: short}, {forceServerObjectId:true}, function(err, urlLib) {
         if (err) {
           console.log(err);
         } else {
@@ -122,7 +122,7 @@ MongoClient.connect(mongoURL, function(err, client) {
      collection.find({original_url : url}).toArray(function(err, urlLib) {
         assert.equal(err, null);
         console.log(urlLib, "lib");
-         if (urlLib === []) {
+         if ([]) {
            console.log("what the f?!")
           randomURL(url);
         } else {
