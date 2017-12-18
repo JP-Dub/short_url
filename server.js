@@ -24,6 +24,13 @@ app.get("/", function (request, response) {
 });
 
 
+// Use connect method to connect to the Server
+MongoClient.connect(mongoURL, function(err, client) {
+  assert.equal(null, err);
+  console.log('Mongo connection established...');
+  
+  var db = client.db(dbName);
+
 app.get("/*", function (req, res, next) {
   var url = req.params[0];
     
@@ -38,7 +45,7 @@ app.get("/*", function (req, res, next) {
   // function to check, create, log, and post url queries and results.     
   function mapquest(url) {
    
-      var url = "",
+    var url = "",
         short = "";
     
     var findURL = function(db, callback) {
@@ -57,7 +64,6 @@ app.get("/*", function (req, res, next) {
       var collection = db.collection('urlLib');
       
       collection.insertMany({
-        id: num++,
         original_url: url,
         shortened_url: short
       })
@@ -145,12 +151,7 @@ var insertDocuments = function(db, callback) {
 
 
 
-// Use connect method to connect to the Server
-MongoClient.connect(mongoURL, function(err, client) {
-  assert.equal(null, err);
-  console.log('Mongo connection established...');
-  
-  var db = client.db(dbName);
+
   
   // findDocuments(db, function() {
   //Close connection
