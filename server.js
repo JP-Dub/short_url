@@ -113,16 +113,20 @@ var insertDocuments = function(db, callback) {
   });
 }
 */
-const findDocuments = function(db, callback) {
+var findURL = function(db, callback) {
   // Get the documents collection
-  const collection = db.collection('documents');
+  var collection = db.collection('urlLib');
   // Find some documents
-  collection.deleteMany({}, function(err, docs) {
+  collection.deleteMany({}, function(err, urlLib) {
     assert.equal(err, null);
     console.log("Found the following records");
-    console.log(docs)
-    callback(docs);
+    console.log(urlLib)
+    callback(urlLib);
   });
+}
+
+var insertOne = function(db, {forceServerObjectId: 'true'}, callback) {
+    
 }
 
 //var deleteMany = function(db, callback) {
