@@ -159,14 +159,14 @@ var insertDocuments = function(db, callback) {
   //});  
 
 });
-
+/*
 // experimental code - to be modified
 app.get("/https://www.yahoo.com", function (req, res, next) {
   res.redirect("https://www.yahoo.com")
   console.log(req.url, "found it!")
   
 });
-
+*/
 // listen for requests 
 var listener = app.listen(process.env.PORT, function () {
   console.log('Your app is listening on port ' + listener.address().port);
