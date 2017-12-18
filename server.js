@@ -10,6 +10,28 @@ var urlLib = new Object(), // this creates a db to store query session
       data.obj = new Object(); // store the results of the url query(orig_url and short_url)
       data.str = "abcde0fghij1klmno2pqrst3uvwxy4zABCD5EFGHI6JKLMN7OPQRS8TUVWX9YZ";  // string hash for random()
 
+var assert = require('assert');
+MongoClient.connect(mongoURL, function(err, db) {
+  assert.equal(null, err);
+  console.log("Connected successfully to server");
+  
+  var insertDocuments = function(db, callback) {
+  // Get the documents collection
+  var collection = db.collection('documents');
+  // Insert some documents
+  collection.insertMany([
+    {a : 1}, {a : 2}, {a : 3}
+  ], function(err, result) {
+    assert.equal(err, null);
+    assert.equal(3, result.result.n);
+    assert.equal(3, result.ops.length);
+    console.log("Inserted 3 documents into the collection");
+    callback(result);
+  });
+}
+  
+  db.close();
+});
 
 // http://expressjs.com/en/starter/static-files.html
 //app.use(express.static('public'));
