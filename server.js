@@ -23,7 +23,12 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
 
-
+  // Use connect method to connect to the Server
+MongoClient.connect(mongoURL, function(err, client) {
+  assert.equal(null, err);
+  console.log('Mongo connection established...');
+  
+  var db = client.db(dbName);
 
 
 app.get("/*", function (req, res, next) {
@@ -131,24 +136,19 @@ app.get("/*", function (req, res, next) {
   }; 
   
 mapquest(url);
-  
 
-   
+  
+  
 });
 
-  // Use connect method to connect to the Server
-MongoClient.connect(mongoURL, function(err, client) {
-  assert.equal(null, err);
-  console.log('Mongo connection established...');
-  
-  var db = client.db(dbName);
-  
   // findDocuments(db, function() {
   //Close connection
   client.close();
   //});  
 
 });
+  
+
 
 /*
 // experimental code - to be modified
