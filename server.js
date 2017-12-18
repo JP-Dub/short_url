@@ -24,12 +24,7 @@ app.get("/", function (request, response) {
 });
 
 
-// Use connect method to connect to the Server
-MongoClient.connect(mongoURL, function(err, client) {
-  assert.equal(null, err);
-  console.log('Mongo connection established...');
-  
-  var db = client.db(dbName);
+
 
 app.get("/*", function (req, res, next) {
   var url = req.params[0];
@@ -41,6 +36,8 @@ app.get("/*", function (req, res, next) {
     res.json(error);
     return;
   }
+  
+
       
   // function to check, create, log, and post url queries and results.     
   function mapquest(url) {
@@ -52,7 +49,7 @@ app.get("/*", function (req, res, next) {
       // Get the documents collection
   
       // Find some documents
-      collection.find({original_url : url, shortened_url : short}, function(err, urlLib) {
+      collection.find({original_url : url}).toArray(function(err, urlLib) {
         assert.equal(err, null);
         console.log("Found the following records");
         console.log(urlLib)
@@ -134,15 +131,25 @@ app.get("/*", function (req, res, next) {
   }; 
   
 mapquest(url);
+  
+
    
 });
 
+  // Use connect method to connect to the Server
+MongoClient.connect(mongoURL, function(err, client) {
+  assert.equal(null, err);
+  console.log('Mongo connection established...');
+  
+  var db = client.db(dbName);
+  
   // findDocuments(db, function() {
   //Close connection
   client.close();
   //});  
 
 });
+
 /*
 // experimental code - to be modified
 app.get("/https://www.yahoo.com", function (req, res, next) {
