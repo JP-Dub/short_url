@@ -115,15 +115,18 @@ MongoClient.connect(mongoURL, function(err, client) {
         }
     } 
       
-      
-    findURL(db, function(err, results) {
-    if(results === []) {
-      console.log("it was empty")
-      randomURL(url);
-    } 
-      console.log(results)
-      }) 
+
+     collection.find({original_url : url}).toArray(function(err, urlLib) {
+        assert.equal(err, null);
+        console.log(urlLib, "lib");
+         if (urlLib === []) {
+          randomURL(url);
+        } 
+       
+      });
+    
      
+    /* 
     //checks if  original url address is in the db already
     if(!isEmpty()) {
       for(var key in urlLib) {            
@@ -135,7 +138,7 @@ MongoClient.connect(mongoURL, function(err, client) {
       randomURL(url); // no duplicates are found      
     } else {
       randomURL(url); // the urlLib is empty
-    }
+    }*/
   }; 
   
 mapquest(url);
