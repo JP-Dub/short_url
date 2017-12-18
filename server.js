@@ -61,7 +61,7 @@ MongoClient.connect(mongoURL, function(err, client) {
     
     var insertURL = function(db, callback) {
       
-      collection.insertMany({original_url: url, shortened_url: short}, function(err, result) {
+      collection.insertOne({original_url: url, shortened_url: short}, function(err, result) {
         if (err) {
           console.log(err);
         } else {
@@ -97,9 +97,9 @@ MongoClient.connect(mongoURL, function(err, client) {
         short += str[Math.floor(Math.random() * str.length)];
       }
       
-      insertURL(db, function(err, results) {
+      /*insertURL(db, function(err, results) {
         console.log("i inserted")
-      }); 
+      });*/ 
       //checks if short url address is in the db already
       if(!isEmpty()) {
         for(var key in urlLib) {
@@ -120,7 +120,8 @@ MongoClient.connect(mongoURL, function(err, client) {
     if(results === []) {
       console.log("it was empty")
       randomURL(url);
-    }
+    } 
+      console.log(results)
       }) 
      
     //checks if  original url address is in the db already
