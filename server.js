@@ -1,17 +1,18 @@
 // init project
-var MongoClient = require('mongodb').MongoClient;
-var mongoURL = process.env.MONGOLAB_URI;
-var validUrl = require('valid-url');
-var express = require('express');
-var app = express();
-var dbName = "urlDatabase";
+var MongoClient = require('mongodb').MongoClient,
+    mongoURL = process.env.MONGOLAB_URI,
+    validUrl = require('valid-url'),
+    express = require('express'),
+    assert = require('assert'),
+    dbName = "urlDatabase",
+    app = express();
 
 var   urlLib = new Object(), // this creates a db to store query session
       data = new Object(); // creates an db for the string hash (data.str) and return url query in the data.obj
       data.obj = new Object(); // store the results of the url query(orig_url and short_url)
       data.str = "abcde0fghij1klmno2pqrst3uvwxy4zABCD5EFGHI6JKLMN7OPQRS8TUVWX9YZ";  // string hash for random()
 
-var assert = require('assert');
+
 
 // http://expressjs.com/en/starter/static-files.html
 //app.use(express.static('public'));
@@ -34,6 +35,7 @@ app.get("/*", function (req, res, next) {
     return;
   }
       
+  var checks = "Yo, shit works";
   // function to check, create, log, and post url queries and results.     
   function mapquest(url) {
       
@@ -90,9 +92,9 @@ app.get("/*", function (req, res, next) {
       randomURL(url); // the urlLib is empty
     }
   };
-
+console.log(checks) 
 mapquest(url);
-    
+   
 });
 
 
@@ -125,13 +127,10 @@ var findURL = function(db, callback) {
   });
 }
 
-var insertOne = function(db, {forceServerObjectId: 'true'}, callback) {
+var insertOne = function(db, callback) {
     
 }
 
-//var deleteMany = function(db, callback) {
-//  var collection = db.collection('documents')
-//}
 
 // Use connect method to connect to the Server
 MongoClient.connect(mongoURL, function(err, client) {
@@ -140,7 +139,7 @@ MongoClient.connect(mongoURL, function(err, client) {
   
   var db = client.db(dbName);
   
-
+  
 
   // findDocuments(db, function() {
      //Close connection
