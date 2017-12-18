@@ -37,12 +37,15 @@ app.get("/*", function (req, res, next) {
       
   // function to check, create, log, and post url queries and results.     
   function mapquest(url) {
+   
+      var url = "",
+        short = "";
     
     var findURL = function(db, callback) {
       // Get the documents collection
       var collection = db.collection('urlLib');
       // Find some documents
-      collection.deleteMany({}, function(err, urlLib) {
+      collection.find({original_url : url, shortened_url : short}, function(err, urlLib) {
         assert.equal(err, null);
         console.log("Found the following records");
         console.log(urlLib)
@@ -53,7 +56,12 @@ app.get("/*", function (req, res, next) {
     var insertMany = function(db, callback) {
       var collection = db.collection('urlLib');
       
-      collection.
+      collection.insertMany({
+        id: num++,
+        original_url: url,
+        shortened_url: short
+      })
+      console.log(collection)
     }
     
     // checks if urlLib is empty
@@ -147,10 +155,8 @@ MongoClient.connect(mongoURL, function(err, client) {
   // findDocuments(db, function() {
   //Close connection
   client.close();
-
   //});  
-  //db.createCollection("urlLib");
-  //var lib = db.collection("urlLib");
+
 });
 
 // experimental code - to be modified
