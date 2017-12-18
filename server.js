@@ -44,13 +44,13 @@ app.get("/*", function (req, res, next) {
       
   // function to check, create, log, and post url queries and results.     
   function mapquest(url) {
-   
+    var collection = db.collection('urlLib');
     var url = "",
         short = "";
     
     var findURL = function(db, callback) {
       // Get the documents collection
-      var collection = db.collection('urlLib');
+  
       // Find some documents
       collection.find({original_url : url, shortened_url : short}, function(err, urlLib) {
         assert.equal(err, null);
@@ -60,14 +60,17 @@ app.get("/*", function (req, res, next) {
       });
     }
     
-    var insertMany = function(db, callback) {
-      var collection = db.collection('urlLib');
+    var insertURL = function(db, callback) {
       
-      collection.insertMany({
-        original_url: url,
-        shortened_url: short
-      })
-      console.log(collection)
+      collection.insertMany({original_url: url, shortened_url: short}, function(err, result) {
+        if (err) {
+          console.log(err);
+        } else {
+         console.log("successful insertion");
+         callback(result);
+         console.log(collection)
+        }
+      });
     }
     
     // checks if urlLib is empty
@@ -128,31 +131,6 @@ mapquest(url);
    
 });
 
-
-/*
-var insertDocuments = function(db, callback) {
-  // Get the documents collection
-  var collection = db.collection('documents');
-  // Insert some documents
-   
-  collection.insertMany([
-    {a : 1}, {a : 2}, {a : 3}
-  ], function(err, result) {
-    assert.equal(err, null);
-    assert.equal(3, result.result.n);
-    assert.equal(3, result.ops.length);
-    console.log("Inserted 3 documents into the collection");
-    callback(result);
-  });
-}
-*/
-
-
-
-
-
-
-  
   // findDocuments(db, function() {
   //Close connection
   client.close();
