@@ -48,7 +48,7 @@ MongoClient.connect(mongoURL, function(err, client) {
     var collection = db.collection('urlLib');
    // var url = "",
     var short ="sho.rt/";
-    
+    /*
     var findURL = function(db, callback) {
       // Find some documents
       collection.find({original_url : url}).toArray(function(err, urlLib) {
@@ -79,7 +79,7 @@ MongoClient.connect(mongoURL, function(err, client) {
           return false;
         } 
       return true;
-    }
+    }*/
     // posts result to the screen
     var postData = function(urlLib /*log, url, short*/) {
       //if(log) {
@@ -93,7 +93,7 @@ MongoClient.connect(mongoURL, function(err, client) {
         if(key === "original_url") {
           obj.original_url = value;
         }
-        if(key === "short_url") {
+        if(key === "shortened_url") {
           obj.shortened_url = "https://glacier-feather.glitch.me/" + value;
         }
       }
@@ -102,6 +102,7 @@ MongoClient.connect(mongoURL, function(err, client) {
 
    // creates a random string to build the shortened url
     var randomURL = function(url){
+      console.log("pickup a new job")
       var str = data.str;
       for (var i = 0; i < 6; i++) {
         short += str[Math.floor(Math.random() * str.length)];
@@ -116,55 +117,29 @@ MongoClient.connect(mongoURL, function(err, client) {
          postData(urlLib)
         }
       });
-      /*
-      //checks if short url address is in the db already
-      if(!isEmpty()) {
-        for(var key in urlLib) {
-          var val = urlLib[key];  
-          if (short === val) {
-            randomURL(z); // duplicate short url is found in the urlLib, creates a new string
-            return;
-          }              
-        }        
-        postData(true, z, short); // if no duplicates are found in the urlLib, post data
-        } else { 
-          postData(true, z, short); // if urlLib is empty, post data
-        }*/
     } 
     
      collection.find({original_url : url}).toArray(function(err, urlLib) {
         assert.equal(err, null);
         console.log(urlLib, "lib");
-         if (urlLib === [] || urlLib === null) {
+         if (urlLib === []) {
+           console.log("what the f?!")
           randomURL(url);
         } else {
+          console.log("wtf?")
           //console.log(urlLib[0][1])
           postData(urlLib);
         }
        
       });
     
-     
-    /* 
-    //checks if  original url address is in the db already
-    if(!isEmpty()) {
-      for(var key in urlLib) {            
-        if (key === url) {
-         postData(false, url, urlLib[key]); // if duplicate url query is found in the urlLib, return the results
-         return;
-        }      
-      }
-      randomURL(url); // no duplicates are found      
-    } else {
-      randomURL(url); // the urlLib is empty
-    }*/
   }; 
   
 mapquest(url);
   
   
   client.close();
-});
+  });
   
 });
 
