@@ -35,10 +35,27 @@ app.get("/*", function (req, res, next) {
     return;
   }
       
-  var checks = "Yo, shit works";
   // function to check, create, log, and post url queries and results.     
   function mapquest(url) {
+    
+    var findURL = function(db, callback) {
+      // Get the documents collection
+      var collection = db.collection('urlLib');
+      // Find some documents
+      collection.deleteMany({}, function(err, urlLib) {
+        assert.equal(err, null);
+        console.log("Found the following records");
+        console.log(urlLib)
+        callback(urlLib);
+      });
+    }
+    
+    var insertMany = function(db, callback) {
+      var collection = db.collection('urlLib');
       
+      collection.
+    }
+    
     // checks if urlLib is empty
     var isEmpty = function() {
       for(var key in urlLib) {
@@ -92,7 +109,7 @@ app.get("/*", function (req, res, next) {
       randomURL(url); // the urlLib is empty
     }
   };
-console.log(checks) 
+
 mapquest(url);
    
 });
@@ -115,21 +132,9 @@ var insertDocuments = function(db, callback) {
   });
 }
 */
-var findURL = function(db, callback) {
-  // Get the documents collection
-  var collection = db.collection('urlLib');
-  // Find some documents
-  collection.deleteMany({}, function(err, urlLib) {
-    assert.equal(err, null);
-    console.log("Found the following records");
-    console.log(urlLib)
-    callback(urlLib);
-  });
-}
 
-var insertOne = function(db, callback) {
-    
-}
+
+
 
 
 // Use connect method to connect to the Server
@@ -139,16 +144,13 @@ MongoClient.connect(mongoURL, function(err, client) {
   
   var db = client.db(dbName);
   
-  
-
   // findDocuments(db, function() {
-     //Close connection
+  //Close connection
   client.close();
 
-//   });  
+  //});  
   //db.createCollection("urlLib");
   //var lib = db.collection("urlLib");
-
 });
 
 // experimental code - to be modified
