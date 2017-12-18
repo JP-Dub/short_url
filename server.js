@@ -23,13 +23,6 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
 
-  // Use connect method to connect to the Server
-MongoClient.connect(mongoURL, function(err, client) {
-  assert.equal(null, err);
-  console.log('Mongo connection established...');
-  
-  var db = client.db(dbName);
-
 
 app.get("/*", function (req, res, next) {
   var url = req.params[0];
@@ -41,18 +34,22 @@ app.get("/*", function (req, res, next) {
     res.json(error);
     return;
   }
+    // Use connect method to connect to the Server
+MongoClient.connect(mongoURL, function(err, client) {
+  assert.equal(null, err);
+  console.log('Mongo connection established...');
   
-
-      
+  var db = client.db(dbName);
+  
+  
   // function to check, create, log, and post url queries and results.     
   function mapquest(url) {
+    // Get the urlLib collection
     var collection = db.collection('urlLib');
     var url = "",
         short = "";
     
     var findURL = function(db, callback) {
-      // Get the documents collection
-  
       // Find some documents
       collection.find({original_url : url}).toArray(function(err, urlLib) {
         assert.equal(err, null);
@@ -117,8 +114,8 @@ app.get("/*", function (req, res, next) {
     } 
       
       
-      findURL(db, function(err, results) {
-      console.log("found something")
+    findURL(db, function(err, results) {
+    console.log("found something")
       }) 
      
     //checks if  original url address is in the db already
@@ -137,16 +134,20 @@ app.get("/*", function (req, res, next) {
   
 mapquest(url);
 
-  
+  client.close();
+});
   
 });
+
+
+
 
   // findDocuments(db, function() {
   //Close connection
-  client.close();
+  //client.close();
   //});  
 
-});
+
   
 
 
