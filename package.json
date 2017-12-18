@@ -4,7 +4,9 @@
   "description": "FCC Backend Challenge: URL Shortener Microservice",
   "main": "server.js",
   "dependencies": {
+    "bson-ext": "^1.0.5",
     "express": "^4.16.2",
+    "kerberos": "0.0.23",
     "mongodb": "^3.0.0-rc0",
     "valid-url": "^1.0.9"
   },
