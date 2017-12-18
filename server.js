@@ -46,8 +46,8 @@ MongoClient.connect(mongoURL, function(err, client) {
   function mapquest(url) {
     // Get the urlLib collection
     var collection = db.collection('urlLib');
-    var url = "",
-        short = "";
+   // var url = "",
+    var short ="sho.rt/";
     
     var findURL = function(db, callback) {
       // Find some documents
@@ -92,12 +92,14 @@ MongoClient.connect(mongoURL, function(err, client) {
 
    // creates a random string to build the shortened url
     var randomURL = function(z){
-      var short ="sho.rt/", str = data.str;
+      var str = data.str;
       for (var i = 0; i < 6; i++) {
         short += str[Math.floor(Math.random() * str.length)];
       }
       
-       
+      insertURL(db, function(err, results) {
+        console.log("i inserted")
+      }); 
       //checks if short url address is in the db already
       if(!isEmpty()) {
         for(var key in urlLib) {
