@@ -96,7 +96,7 @@ mapquest(url);
 });
 
 
-
+/*
 var insertDocuments = function(db, callback) {
   // Get the documents collection
   var collection = db.collection('documents');
@@ -112,18 +112,23 @@ var insertDocuments = function(db, callback) {
     callback(result);
   });
 }
-
+*/
 const findDocuments = function(db, callback) {
   // Get the documents collection
   const collection = db.collection('documents');
   // Find some documents
-  collection.find({}).toArray(function(err, docs) {
+  collection.deleteMany({}, function(err, docs) {
     assert.equal(err, null);
     console.log("Found the following records");
     console.log(docs)
     callback(docs);
   });
 }
+
+//var deleteMany = function(db, callback) {
+//  var collection = db.collection('documents')
+//}
+
 // Use connect method to connect to the Server
 MongoClient.connect(mongoURL, function(err, client) {
   assert.equal(null, err);
@@ -132,12 +137,12 @@ MongoClient.connect(mongoURL, function(err, client) {
   var db = client.db(dbName);
   
 
- insertDocuments(db, function() {
-   findDocuments(db, function() {
+
+  // findDocuments(db, function() {
      //Close connection
   client.close();
-   });
-   });  
+
+//   });  
   //db.createCollection("urlLib");
   //var lib = db.collection("urlLib");
 
