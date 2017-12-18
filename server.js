@@ -125,10 +125,10 @@ assert.equal(null, err);
   var db = client.db(dbName);
   
 
-   //insertDocuments(db, function() {
+ insertDocuments(db, function() {
      //Close connection
   client.close();
-  // });  
+   });  
   //db.createCollection("urlLib");
   //var lib = db.collection("urlLib");
 
