@@ -87,25 +87,36 @@ MongoClient.connect(mongoURL, function(err, client) {
       //}
        //data.obj.original_url = url;
       //data.obj.shortened_url = short;
-       res.json(urlLib);
+      var obj = {};
+      for(var key in urlLib) {
+        var value = urlLib[key];
+        if(key === "original_url") {
+          obj.original_url = value;
+        }
+        if(key === "short_url") {
+          obj.shortened_url = "https://glacier-feather.glitch.me/" + value;
+        }
+      }
+       res.json(obj);
     }
 
    // creates a random string to build the shortened url
-    var randomURL = function(z){
+    var randomURL = function(url){
       var str = data.str;
       for (var i = 0; i < 6; i++) {
         short += str[Math.floor(Math.random() * str.length)];
       }
       
-      collection.insertOne([{original_url: url, shortened_url: short}], {forceServerObjectId:'true'}, function(err, urlLib) {
+      collection.insertOne({original_url: url, shortened_url: short}, function(err, urlLib) {
         if (err) {
           console.log(err);
         } else {
          console.log("successful insertion");      
          console.log(urlLib)
-          postData(urlLib)
+         postData(urlLib)
         }
       });
+      /*
       //checks if short url address is in the db already
       if(!isEmpty()) {
         for(var key in urlLib) {
@@ -118,7 +129,7 @@ MongoClient.connect(mongoURL, function(err, client) {
         postData(true, z, short); // if no duplicates are found in the urlLib, post data
         } else { 
           postData(true, z, short); // if urlLib is empty, post data
-        }
+        }*/
     } 
     
      collection.find({original_url : url}).toArray(function(err, urlLib) {
