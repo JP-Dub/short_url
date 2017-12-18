@@ -4,8 +4,9 @@ var mongoURL = process.env.MONGOLAB_URI;
 var validUrl = require('valid-url');
 var express = require('express');
 var app = express();
+var dbName = "urlDatabase";
 
-var urlLib = new Object(), // this creates a db to store query session
+var   urlLib = new Object(), // this creates a db to store query session
       data = new Object(); // creates an db for the string hash (data.str) and return url query in the data.obj
       data.obj = new Object(); // store the results of the url query(orig_url and short_url)
       data.str = "abcde0fghij1klmno2pqrst3uvwxy4zABCD5EFGHI6JKLMN7OPQRS8TUVWX9YZ";  // string hash for random()
@@ -100,14 +101,19 @@ mapquest(url);
     
 });
 
+var assert = require('assert');
 // Use connect method to connect to the Server
-MongoClient.connect(mongoURL, function(err, db) {
-  if (err) {
-    console.log('Unable to connect to the mongoDB server. Error:', err);
-  } else {
-    console.log('Mongo connection established...');  
-  }
-
+MongoClient.connect(mongoURL, function(err, client) {
+ // if (err) {
+ //   console.log('Unable to connect to the mongoDB server. Error:', err);
+ // } else {
+ //   console.log('Mongo connection established...');  
+ // }
+assert.equal(null, err);
+  console.log("connect successfully to the server")
+  
+  var db = db.db(dbName);
+  
     var insertDocuments = function(db, callback) {
   // Get the documents collection
   var collection = db.collection('documents');
