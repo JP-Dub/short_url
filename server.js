@@ -61,7 +61,7 @@ MongoClient.connect(mongoURL, function(err, client) {
     
     var insertURL = function(db, callback) {
       
-      collection.insertOne({original_url: url, shortened_url: short}, function(err, result) {
+      collection.insertOne({original_url: url, shortened_url: short}, {forceServerObjectId:true}, function(err, result) {
         if (err) {
           console.log(err);
         } else {
@@ -81,13 +81,13 @@ MongoClient.connect(mongoURL, function(err, client) {
       return true;
     }
     // posts result to the screen
-    var postData = function(log, url, short) {
-      if(log) {
-        urlLib[url] = short; //logs query to url library(urlLib)
-      }
-       data.obj.original_url = url;
-       data.obj.shortened_url = short;
-       res.json(data.obj);
+    var postData = function(urlLib /*log, url, short*/) {
+      //if(log) {
+      //  urlLib[url] = short; //logs query to url library(urlLib)
+      //}
+       //data.obj.original_url = url;
+      //data.obj.shortened_url = short;
+       res.json(urlLib);
     }
 
    // creates a random string to build the shortened url
@@ -97,9 +97,9 @@ MongoClient.connect(mongoURL, function(err, client) {
         short += str[Math.floor(Math.random() * str.length)];
       }
       
-      /*insertURL(db, function(err, results) {
+      insertURL(db, function(err, results) {
         console.log("i inserted")
-      });*/ 
+      }); 
       //checks if short url address is in the db already
       if(!isEmpty()) {
         for(var key in urlLib) {
@@ -114,14 +114,16 @@ MongoClient.connect(mongoURL, function(err, client) {
           postData(true, z, short); // if urlLib is empty, post data
         }
     } 
-      
-
+    
      collection.find({original_url : url}).toArray(function(err, urlLib) {
         assert.equal(err, null);
         console.log(urlLib, "lib");
-         if (urlLib === []) {
+         if (urlLib === [] || urlLib === null) {
           randomURL(url);
-        } 
+        } else {
+          console.log(urlLib[0][1])
+          postData(urlLib);
+        }
        
       });
     
@@ -142,7 +144,8 @@ MongoClient.connect(mongoURL, function(err, client) {
   }; 
   
 mapquest(url);
-
+  
+  
   client.close();
 });
   
