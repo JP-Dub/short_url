@@ -97,7 +97,8 @@ app.get("/*", function (req, res, next) {
       for (var i = 0; i < 6; i++) {
         short += str[Math.floor(Math.random() * str.length)];
       }
-        
+      
+   
       //checks if short url address is in the db already
       if(!isEmpty()) {
         for(var key in urlLib) {
@@ -113,6 +114,11 @@ app.get("/*", function (req, res, next) {
         }
     } 
       
+      
+      findURL(db, function(err, results) {
+      console.log("found something")
+      }) 
+     
     //checks if  original url address is in the db already
     if(!isEmpty()) {
       for(var key in urlLib) {            
@@ -125,8 +131,8 @@ app.get("/*", function (req, res, next) {
     } else {
       randomURL(url); // the urlLib is empty
     }
-  };
-
+  }; 
+  
 mapquest(url);
    
 });
