@@ -97,7 +97,7 @@ MongoClient.connect(mongoURL, function(err, client) {
         short += str[Math.floor(Math.random() * str.length)];
       }
       
-   
+       
       //checks if short url address is in the db already
       if(!isEmpty()) {
         for(var key in urlLib) {
@@ -115,7 +115,10 @@ MongoClient.connect(mongoURL, function(err, client) {
       
       
     findURL(db, function(err, results) {
-    console.log("found something")
+    if(results === []) {
+      console.log("it was empty")
+      randomURL(url);
+    }
       }) 
      
     //checks if  original url address is in the db already
