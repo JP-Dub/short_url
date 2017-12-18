@@ -12,12 +12,6 @@ var   urlLib = new Object(), // this creates a db to store query session
       data.str = "abcde0fghij1klmno2pqrst3uvwxy4zABCD5EFGHI6JKLMN7OPQRS8TUVWX9YZ";  // string hash for random()
 
 var assert = require('assert');
-MongoClient.connect(mongoURL, function(err, db) {
-  assert.equal(null, err);
-  console.log("Connected successfully to server");
-   
-  db.close();
-});
 
 // http://expressjs.com/en/starter/static-files.html
 //app.use(express.static('public'));
@@ -101,20 +95,9 @@ mapquest(url);
     
 });
 
-var assert = require('assert');
-// Use connect method to connect to the Server
-MongoClient.connect(mongoURL, function(err, client) {
- // if (err) {
- //   console.log('Unable to connect to the mongoDB server. Error:', err);
- // } else {
- //   console.log('Mongo connection established...');  
- // }
-assert.equal(null, err);
-  console.log("connect successfully to the server")
-  
-  var db = db.db(dbName);
-  
-    var insertDocuments = function(db, callback) {
+
+
+var insertDocuments = function(db, callback) {
   // Get the documents collection
   var collection = db.collection('documents');
   // Insert some documents
@@ -129,13 +112,28 @@ assert.equal(null, err);
     callback(result);
   });
 }
-     
+// Use connect method to connect to the Server
+MongoClient.connect(mongoURL, function(err, client) {
+ // if (err) {
+ //   console.log('Unable to connect to the mongoDB server. Error:', err);
+ // } else {
+ //   console.log('Mongo connection established...');  
+ // }
+assert.equal(null, err);
+  console.log("connect successfully to the server")
+  
+  var db = client.db(dbName);
+  
+
+   //insertDocuments(db, function() {
+     //Close connection
+  client.close();
+  // });  
   //db.createCollection("urlLib");
   //var lib = db.collection("urlLib");
 
 
-  //Close connection
-  db.close();
+  
   
 });
 
