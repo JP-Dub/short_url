@@ -97,9 +97,15 @@ MongoClient.connect(mongoURL, function(err, client) {
         short += str[Math.floor(Math.random() * str.length)];
       }
       
-      insertURL(db, function(err, results) {
-        console.log("i inserted")
-      }); 
+      collection.insertOne([{original_url: url, shortened_url: short}], {forceServerObjectId:'true'}, function(err, urlLib) {
+        if (err) {
+          console.log(err);
+        } else {
+         console.log("successful insertion");      
+         console.log(urlLib)
+          postData(urlLib)
+        }
+      });
       //checks if short url address is in the db already
       if(!isEmpty()) {
         for(var key in urlLib) {
@@ -121,7 +127,7 @@ MongoClient.connect(mongoURL, function(err, client) {
          if (urlLib === [] || urlLib === null) {
           randomURL(url);
         } else {
-          console.log(urlLib[0][1])
+          //console.log(urlLib[0][1])
           postData(urlLib);
         }
        
