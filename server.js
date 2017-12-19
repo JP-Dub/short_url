@@ -90,14 +90,14 @@ MongoClient.connect(mongoURL, function(err, client) {
       for(var key in urlLib[0]) {
         var value = urlLib[0][key];
         console.log(key, "key", value, "value")
-        if(key === urlLib[0].original_url) {
+        if(key === "original_url") {
           obj.original_url = value;
         }
-        if(key === shortened_url) {
+        if(key === "shortened_url") {
           obj.shortened_url = "https://glacier-feather.glitch.me/" + value;
         }
       }
-       res.json(urlLib);
+       res.json(obj);
       client.close();
     }
 
@@ -124,19 +124,15 @@ MongoClient.connect(mongoURL, function(err, client) {
         }
       });*/
     } 
-    
+     //collection.deleteMany({});
      collection.find({original_url : url}).toArray(function(err, urlLib) {
         assert.equal(err, null);
-        console.log(urlLib, "lib");
-         if (![]) {
-           console.log("what the f?!")
+         if (!urlLib.length) {
+           //console.log("what the f?!")
           randomURL(url);
         } else {
-          console.log("wtf?")
-          console.log(urlLib[0][1])
           postData(urlLib);
-        }
-       
+        }     
       });
     
   }; 
