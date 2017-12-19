@@ -14,23 +14,23 @@
         <header>API Basejump: <em>URL Shortener Microservice</em></header><br>
         <article>
         <p>User stories:</p>
-          <p class="user">1) I can pass a URL as a parameter and I will receive a shortened URL in the JSON response.<br> 2) When I visit that shortened URL, it will redirect me to my original link.</p>
+          <p class="user">1) I can pass a valid URL as a parameter and I will receive a shortened URL in the JSON response.<br> 2) When I visit the shortened URL, it will redirect me to the original link.</p>
         </article>
           <footer>
           <p class="example">
             Example creation usage:
           </p>
-            <p><mark>https://glacier-feather.glitch.me/somethingsomething</mark></p>
-            <p><mark>https://glacier-feather.glitch.me/somethingsomething</mark></p>
+            <p><mark>https://glacier-feather.glitch.me/https://www.cnn.com</mark></p>
+            <p><mark>https://glacier-feather.glitch.me/https://www.foxnews.com</mark></p>
           <p class="example">
             Example creation output:
           </p>
           <p><mark>
-            { "original_url": "http://foo.com:80", "short_url": "https://glacier-feather.glitch.me/somethingsomething" }</mark></p>
+            { "original_url": "http://foo.com:80", "shortened_url": "https://glacier-feather.glitch.me/sho.rt/RkYrez" }</mark></p>
           <p class="example">
             Usage:
           </p>
-            <p><mark>https://glacier-feather.glitch.me/somethingsomething</mark></p>
+            <p><mark>https://glacier-feather.glitch.me/sho.rt/o8Kegs</mark></p>
           <p class="example">
             Will redirect to:
           </p>

@@ -7,15 +7,14 @@ var MongoClient = require('mongodb').MongoClient,
     dbName = "urlDatabase",
     app = express();
 
-var   urlLib = new Object(), // this creates a db to store query session
-      data = new Object(); // creates an db for the string hash (data.str) and return url query in the data.obj
-      data.obj = new Object(); // store the results of the url query(orig_url and short_url)
-      data.str = "abcde0fghij1klmno2pqrst3uvwxy4zABCD5EFGHI6JKLMN7OPQRS8TUVWX9YZ";  // string hash for random()
+//var   urlLib = new Object(), // this creates a db to store query session
+      //data = new Object(); // creates an db for the string hash (data.str) and return url query in the data.obj
+      //data.obj = new Object(); // store the results of the url query(orig_url and short_url)
+var str = "abcde0fghij1klmno2pqrst3uvwxy4zABCD5EFGHI6JKLMN7OPQRS8TUVWX9YZ";  // string hash for random()
 
 
 
 // http://expressjs.com/en/starter/static-files.html
-//app.use(express.static('public'));
 app.use('/public', express.static(process.cwd() + '/public'));
 
 // http://expressjs.com/en/starter/basic-routing.html
@@ -53,7 +52,7 @@ app.get("/*", function (req, res, next) {
         assert.equal(err, null);
         // no url databse results, will create and insert new object
         if (!urlLib.length) {
-          var str = data.str;
+          
           // produces a random 6 alpha-numeric string for the shortened url
           for (var i = 0; i < 6; i++) {
             short += str[Math.floor(Math.random() * str.length)];
@@ -89,7 +88,7 @@ app.get("/*", function (req, res, next) {
     });   
   }; 
   
-    // redirects if the url is a shortened url
+  // redirects if the url is shortened
   if(url.match(reg)) {
     var shortUrl = db.collection('urlLib');
     shortUrl.find({shortened_url : url}).toArray(function(err, urlLib) {
@@ -104,7 +103,7 @@ app.get("/*", function (req, res, next) {
       client.close();
     }) 
   } else { 
-    //if the url
+    // url is passed to the function for processing
     mapquest(url);
   }
   });  
