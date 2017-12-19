@@ -26,9 +26,9 @@ app.get("/", function (request, response) {
 
 app.get("/*", function (req, res, next) {
   var url = req.params[0];
-
+  var reg = /(sho.rt\/)\w{6,}/gi;
   // checks if url query is a valid url
-  if(!validUrl.isUri(url)) {
+  if(!validUrl.isUri(url) && !url.match(reg)) {
     var error = {};
     error.Error = url + " doesn't appear to be a valid URL";
     res.json(error);
@@ -43,13 +43,8 @@ MongoClient.connect(mongoURL, function(err, client) {
   
   var db = client.db(dbName);
   
-  var reg = /(sho.rt\/)\w{6,}/gi;
-    reg
-    if(url.match(reg)) {
-    console.log(url);
-    res.send(url)
-    return;
-  }
+  
+
   
   // function to check, create, log, and post url queries and results.     
   function mapquest(url) {
@@ -100,9 +95,20 @@ MongoClient.connect(mongoURL, function(err, client) {
     });
     
   }; 
-  
-mapquest(url);
+
+  if(url.match(reg)) {
+    console.log("matches reg")
+    var shortUrl = db.collection(urlLib);
+    shortUrl.find({shortened_url : url}).toArray(function(err, urlLib) {
+      assert.equal(err, null);
+      console.log(urlLib)
+      client.close();
+    })
    
+  } else { 
+    console.log("standard url")
+mapquest(url);
+  }
   });
   
 });
