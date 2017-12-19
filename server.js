@@ -12,8 +12,6 @@ var MongoClient = require('mongodb').MongoClient,
       //data.obj = new Object(); // store the results of the url query(orig_url and short_url)
 var str = "abcde0fghij1klmno2pqrst3uvwxy4zABCD5EFGHI6JKLMN7OPQRS8TUVWX9YZ";  // string hash for random()
 
-
-
 // http://expressjs.com/en/starter/static-files.html
 app.use('/public', express.static(process.cwd() + '/public'));
 
