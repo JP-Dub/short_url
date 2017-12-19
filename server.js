@@ -26,14 +26,21 @@ app.get("/", function (request, response) {
 
 app.get("/*", function (req, res, next) {
   var url = req.params[0];
-    
-    // checks if url query is a valid url
+     console.log(url)
+    if(url === "sho.rt/*") {
+    console.log(url);
+    res.send(url)
+    return;
+  }
+  // checks if url query is a valid url
   if(!validUrl.isUri(url)) {
     var error = {};
     error.Error = url + " doesn't appear to be a valid URL";
     res.json(error);
     return;
   }
+  
+
     // Use connect method to connect to the Server
 MongoClient.connect(mongoURL, function(err, client) {
   assert.equal(null, err);
@@ -85,10 +92,9 @@ MongoClient.connect(mongoURL, function(err, client) {
         }
          
         res.json(obj);
-        console.log("client closed")
         client.close();
-        }     
-      });
+      }     
+    });
     
   }; 
   
