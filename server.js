@@ -41,40 +41,81 @@ MongoClient.connect(mongoURL, function(err, client) {
   
   var db = client.db(dbName);
   
-  
   // function to check, create, log, and post url queries and results.     
   function mapquest(url) {
     // Get the urlLib collection
     var collection = db.collection('urlLib');
-   // var url = "",
     var short ="sho.rt/";
-    /*
-    var findURL = function(db, callback) {
-      // Find some documents
-      collection.find({original_url : url}).toArray(function(err, urlLib) {
-        assert.equal(err, null);
-        console.log("Found the following records");
-        console.log(urlLib)
-        callback(urlLib);
-      });
-    }*/
     
-    var insertURL = function(db, callback) {
-      
-      collection.insertOne({original_url: url, shortened_url: short}, {'forceServerObjectId':'true'}, function(err, results) {
-        //console.log("now what?")
-        if (err) {
-          console.log(err);
-          return "false";
-        } else {
-         //console.log("successful insertion");
-         //callback(results);
-          return "true";   
-         //console.log(urlLib)
+     //collection.deleteMany({});
+    collection.find({original_url : url}).toArray(function(err, urlLib) {
+      assert.equal(err, null);
+      if (!urlLib.length) {
+        var str = data.str;
+        for (var i = 0; i < 6; i++) {
+          short += str[Math.floor(Math.random() * str.length)];
         }
+    
+        var obj = {
+          original_url : url,
+          shortened_url : "https://glacier-feather.glitch.me/" + short
+        };
+       
+        collection.insertOne({original_url: url, shortened_url: short}, function(err, results) {
+          if (err) {
+            console.log(err);
+          } else {
+            res.json(obj);
+            client.close();
+          }
+        });
+                   
+      } else {
+        obj = {};
+        var lib = urlLib[0];
+        for(var key in lib) {
+          var value = lib[key];
+          if(key === "original_url") {
+            obj.original_url = value;
+          }
+          
+          if(key === "shortened_url") {
+            obj.shortened_url = "https://glacier-feather.glitch.me/" + value;
+          }
+        }
+         
+        res.json(obj);
+        console.log("client closed")
+        client.close();
+        }     
       });
-    }
+    
+  }; 
+  
+mapquest(url);
+   
+  });
+  
+});
 
+
+/*
+// experimental code - to be modified
+app.get("/https://www.yahoo.com", function (req, res, next) {
+  res.redirect("https://www.yahoo.com")
+  console.log(req.url, "found it!")
+  
+});
+*/
+// listen for requests 
+var listener = app.listen(process.env.PORT, function () {
+  console.log('Your app is listening on port ' + listener.address().port);
+});
+
+//mongod --port 27017 --bind_ip=$IP --dbpath=./data --rest "$@"
+
+
+    /*
     // posts result to the screen
     var postData = function(urlLib) {
       console.log(urlLib, "postData")
@@ -95,66 +136,28 @@ MongoClient.connect(mongoURL, function(err, client) {
     }
 
    // creates a random string to build the shortened url
-    var randomURL = function(url){
-      console.log("randomURL called")
+    var createURL = function(url){
       var str = data.str;
       for (var i = 0; i < 6; i++) {
         short += str[Math.floor(Math.random() * str.length)];
       }
+      
       var obj = {
         original_url : url,
-        shortened_url : short
+        shortened_url : "https://glacier-feather.glitch.me/" + short
       };
       
       
-     collection.insertOne({original_url: url, shortened_url: short}, {'forceServerObjectId': 'false'}, function(err, results) {
-        //console.log("now what?")
+     collection.insertOne({original_url: url, shortened_url: short}, function(err, results) {
         if (err) {
           console.log(err);
         } else {
-         //console.log(results, "results")
          res.json(obj);
          client.close();
         }
       });
+    } */
 
-    } 
-     collection.deleteMany({});
-     collection.find({original_url : url}).toArray(function(err, urlLib) {
-        assert.equal(err, null);
-         if (!urlLib.length) {
-           //console.log("what the f?!")
-          randomURL(url);
-        } else {
-          postData(urlLib);
-        }     
-      });
-    
-  }; 
-  
-mapquest(url);
-  
-  
-  
-  });
-  
-});
-
-
-/*
-// experimental code - to be modified
-app.get("/https://www.yahoo.com", function (req, res, next) {
-  res.redirect("https://www.yahoo.com")
-  console.log(req.url, "found it!")
-  
-});
-*/
-// listen for requests 
-var listener = app.listen(process.env.PORT, function () {
-  console.log('Your app is listening on port ' + listener.address().port);
-});
-
-//mongod --port 27017 --bind_ip=$IP --dbpath=./data --rest "$@"
 
 
 /*
