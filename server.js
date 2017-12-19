@@ -57,21 +57,24 @@ MongoClient.connect(mongoURL, function(err, client) {
         console.log(urlLib)
         callback(urlLib);
       });
-    }
+    }*/
     
     var insertURL = function(db, callback) {
       
-      collection.insertOne({original_url: url, shortened_url: short}, {forceServerObjectId:true}, function(err, result) {
+      collection.insertOne({original_url: url, shortened_url: short}, function(err, urlLib) {
         if (err) {
           console.log(err);
+          return false;
         } else {
          console.log("successful insertion");
-         callback(result);
-         console.log(collection)
+         callback(urlLib);
+          postData(urlLib)
+          return true;
+         console.log(urlLib)
         }
       });
     }
-    
+    /*
     // checks if urlLib is empty
     var isEmpty = function() {
       for(var key in urlLib) {
@@ -102,13 +105,16 @@ MongoClient.connect(mongoURL, function(err, client) {
 
    // creates a random string to build the shortened url
     var randomURL = function(url){
-      console.log("pickup a new job")
+      console.log("randomURL called")
       var str = data.str;
       for (var i = 0; i < 6; i++) {
         short += str[Math.floor(Math.random() * str.length)];
       }
       
-      collection.insert({original_url: url, shortened_url: short}, {forceServerObjectId:true}, function(err, urlLib) {
+      insertURL();
+
+      /*
+      collection.insertOne({original_url: url, shortened_url: short}, {'orceServerObjectId':'true'}, function(err, urlLib) {
         if (err) {
           console.log(err);
         } else {
@@ -116,7 +122,7 @@ MongoClient.connect(mongoURL, function(err, client) {
          console.log(urlLib)
          postData(urlLib)
         }
-      });
+      });*/
     } 
     
      collection.find({original_url : url}).toArray(function(err, urlLib) {
