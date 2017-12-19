@@ -1,1 +1,0 @@
-mongod --port 27017 --bind_ip=$IP --dbpath=./data --rest "$@"
