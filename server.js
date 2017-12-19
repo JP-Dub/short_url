@@ -72,8 +72,7 @@ MongoClient.connect(mongoURL, function(err, client) {
          //   console.log(err);
          // } else {
             res.json(obj);
-            client.close();
-          
+            client.close();          
         });
                    
       } else {
@@ -98,12 +97,18 @@ MongoClient.connect(mongoURL, function(err, client) {
   }; 
 
   if(url.match(reg)) {
-    console.log("matches reg")
+    //console.log("matches reg")
     var shortUrl = db.collection('urlLib');
     shortUrl.find({shortened_url : url}).toArray(function(err, urlLib) {
       assert.equal(err, null);
-      console.log(urlLib)
-      res.json(urlLib);
+      var lib = urlLib[0];
+        for(var key in lib) {
+          var value = lib[key];
+          if(key === "original_url") {
+            res.redirect(value)
+          }
+        }
+      //res.json(urlLib);
       client.close();
     })
    
