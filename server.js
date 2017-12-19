@@ -16,7 +16,6 @@ app.get("/", function (request, response) {
   response.sendFile(__dirname + '/views/index.html');
 });
 
-
 app.get("/*", function (req, res, next) {
   var url = req.params[0];
   var reg = /(sho.rt\/)\w{6,}/gi;
@@ -81,8 +80,7 @@ app.get("/*", function (req, res, next) {
       }     
     });   
   }; 
-  
-    
+   
   // redirects if the url is shortened
   if(url.match(reg)) {
     var shortUrl = db.collection('urlLib');
