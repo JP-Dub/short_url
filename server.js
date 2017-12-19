@@ -67,12 +67,13 @@ MongoClient.connect(mongoURL, function(err, client) {
         };
        
         collection.insertOne({original_url: url, shortened_url: short}, function(err, results) {
-          if (err) {
-            console.log(err);
-          } else {
+          assert.equal(err, null);
+          //if (err) {
+         //   console.log(err);
+         // } else {
             res.json(obj);
             client.close();
-          }
+          
         });
                    
       } else {
@@ -98,10 +99,11 @@ MongoClient.connect(mongoURL, function(err, client) {
 
   if(url.match(reg)) {
     console.log("matches reg")
-    var shortUrl = db.collection(urlLib);
+    var shortUrl = db.collection('urlLib');
     shortUrl.find({shortened_url : url}).toArray(function(err, urlLib) {
       assert.equal(err, null);
       console.log(urlLib)
+      res.json(urlLib);
       client.close();
     })
    
