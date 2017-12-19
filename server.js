@@ -26,12 +26,7 @@ app.get("/", function (request, response) {
 
 app.get("/*", function (req, res, next) {
   var url = req.params[0];
-     console.log(url)
-    if(url === "sho.rt/*") {
-    console.log(url);
-    res.send(url)
-    return;
-  }
+
   // checks if url query is a valid url
   if(!validUrl.isUri(url)) {
     var error = {};
@@ -47,6 +42,14 @@ MongoClient.connect(mongoURL, function(err, client) {
   console.log('Mongo connection established...');
   
   var db = client.db(dbName);
+  
+  var reg = /(sho.rt\/)\w{6,}/gi;
+    reg
+    if(url.match(reg)) {
+    console.log(url);
+    res.send(url)
+    return;
+  }
   
   // function to check, create, log, and post url queries and results.     
   function mapquest(url) {
