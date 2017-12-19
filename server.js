@@ -34,13 +34,13 @@ app.get("/*", function (req, res, next) {
     console.log('Mongo connection established...');
   
     var db = client.db(dbName);
-  
+    
     // function to check, create, log, and post url queries and results.     
     function process(url) {
       // Get the urlLib collection
       var collection = db.collection('urlLib');
       var short ="sho.rt/";
-    
+        
       // checks for url in database     
       collection.find({original_url : url}).toArray(function(err, urlLib) {
         assert.equal(err, null);
@@ -54,8 +54,7 @@ app.get("/*", function (req, res, next) {
           // if the url is found in the database it is posted
           var obj = {
             original_url : url,
-            shortened_url : "https://glacier-feather.glitch.me/" + short,
-            url_link: <a href= "https://glacier-feather.glitch.me/" + short + "">short</a>
+            shortened_url : "https://glacier-feather.glitch.me/" + short
           };
         
         // inserts the newly created short url with the queried url 
@@ -83,6 +82,7 @@ app.get("/*", function (req, res, next) {
     });   
   }; 
   
+    
   // redirects if the url is shortened
   if(url.match(reg)) {
     var shortUrl = db.collection('urlLib');
