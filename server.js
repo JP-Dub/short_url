@@ -65,31 +65,22 @@ MongoClient.connect(mongoURL, function(err, client) {
         //console.log("now what?")
         if (err) {
           console.log(err);
-          return false;
+          return "false";
         } else {
          //console.log("successful insertion");
          //callback(results);
-          return true;   
+          return "true";   
          //console.log(urlLib)
         }
       });
     }
-    /*
-    // checks if urlLib is empty
-    var isEmpty = function() {
-      for(var key in urlLib) {
-        if(urlLib.hasOwnProperty(key)) 
-          return false;
-        } 
-      return true;
-    }*/
+
     // posts result to the screen
     var postData = function(urlLib) {
       console.log(urlLib, "postData")
       var obj = {};
       for(var key in urlLib[0]) {
         var value = urlLib[0][key];
-        console.log(key, "key", value, "value")
         if(key === "original_url") {
           obj.original_url = value;
         }
@@ -109,10 +100,14 @@ MongoClient.connect(mongoURL, function(err, client) {
         short += str[Math.floor(Math.random() * str.length)];
       }
       
-      var insert = insertURL();
-      if(insert){
-        postData();
-      }
+     collection.insertOne({original_url: url, shortened_url: short}, {'forceServerObjectId': 'false'}, function(err, results) {
+        //console.log("now what?")
+        if (err) {
+          console.log(err);
+        } else {
+         postData();
+        }
+      });
       /*
       collection.insertOne({original_url: url, shortened_url: short}, {'orceServerObjectId':'true'}, function(err, urlLib) {
         if (err) {
