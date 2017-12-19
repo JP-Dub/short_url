@@ -79,8 +79,9 @@ MongoClient.connect(mongoURL, function(err, client) {
     var postData = function(urlLib) {
       console.log(urlLib, "postData")
       var obj = {};
-      for(var key in urlLib[0]) {
-        var value = urlLib[0][key];
+      var lib = urlLib[0];
+      for(var key in lib) {
+        var value = lib[key];
         if(key === "original_url") {
           obj.original_url = value;
         }
@@ -89,6 +90,7 @@ MongoClient.connect(mongoURL, function(err, client) {
         }
       }
        res.json(obj);
+      console.log("client closed")
       client.close();
     }
 
@@ -99,27 +101,25 @@ MongoClient.connect(mongoURL, function(err, client) {
       for (var i = 0; i < 6; i++) {
         short += str[Math.floor(Math.random() * str.length)];
       }
+      var obj = {
+        original_url : url,
+        shortened_url : short
+      };
+      
       
      collection.insertOne({original_url: url, shortened_url: short}, {'forceServerObjectId': 'false'}, function(err, results) {
         //console.log("now what?")
         if (err) {
           console.log(err);
         } else {
-         postData();
+         //console.log(results, "results")
+         res.json(obj);
+         client.close();
         }
       });
-      /*
-      collection.insertOne({original_url: url, shortened_url: short}, {'orceServerObjectId':'true'}, function(err, urlLib) {
-        if (err) {
-          console.log(err);
-        } else {
-         console.log("successful insertion");      
-         console.log(urlLib)
-         postData(urlLib)
-        }
-      });*/
+
     } 
-     //collection.deleteMany({});
+     collection.deleteMany({});
      collection.find({original_url : url}).toArray(function(err, urlLib) {
         assert.equal(err, null);
          if (!urlLib.length) {
@@ -134,7 +134,7 @@ MongoClient.connect(mongoURL, function(err, client) {
   
 mapquest(url);
   
-  console.log("client closed")
+  
   
   });
   
