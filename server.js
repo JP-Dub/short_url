@@ -61,14 +61,15 @@ MongoClient.connect(mongoURL, function(err, client) {
     
     var insertURL = function(db, callback) {
       
-      collection.insertOne({original_url: url, shortened_url: short}, {'forceServerObjectId':'true'}, function(err, urlLib) {
+      collection.insertOne({original_url: url, shortened_url: short}, {'forceServerObjectId':'true'}, function(err, results) {
         //console.log("now what?")
         if (err) {
           console.log(err);
+          return false;
         } else {
          //console.log("successful insertion");
-         //callback(urlLib);
-          postData(urlLib)     
+         //callback(results);
+          return true;   
          //console.log(urlLib)
         }
       });
@@ -86,17 +87,17 @@ MongoClient.connect(mongoURL, function(err, client) {
     var postData = function(urlLib) {
       console.log(urlLib, "postData")
       var obj = {};
-      for(var key in urlLib) {
-        var value = urlLib[key];
-        console.log(value, "value")
-        if(key === "original_url") {
+      for(var key in urlLib[0]) {
+        var value = urlLib[0][key];
+        console.log(key, "key", value, "value")
+        if(key === urlLib[0].original_url) {
           obj.original_url = value;
         }
-        if(key === "shortened_url") {
+        if(key === shortened_url) {
           obj.shortened_url = "https://glacier-feather.glitch.me/" + value;
         }
       }
-       res.json(obj);
+       res.json(urlLib);
       client.close();
     }
 
@@ -108,8 +109,10 @@ MongoClient.connect(mongoURL, function(err, client) {
         short += str[Math.floor(Math.random() * str.length)];
       }
       
-      insertURL();
-
+      var insert = insertURL();
+      if(insert){
+        postData();
+      }
       /*
       collection.insertOne({original_url: url, shortened_url: short}, {'orceServerObjectId':'true'}, function(err, urlLib) {
         if (err) {
@@ -125,12 +128,12 @@ MongoClient.connect(mongoURL, function(err, client) {
      collection.find({original_url : url}).toArray(function(err, urlLib) {
         assert.equal(err, null);
         console.log(urlLib, "lib");
-         if ([]) {
+         if (![]) {
            console.log("what the f?!")
           randomURL(url);
         } else {
           console.log("wtf?")
-          //console.log(urlLib[0][1])
+          console.log(urlLib[0][1])
           postData(urlLib);
         }
        
