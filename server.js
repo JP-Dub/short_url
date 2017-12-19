@@ -61,16 +61,15 @@ MongoClient.connect(mongoURL, function(err, client) {
     
     var insertURL = function(db, callback) {
       
-      collection.insertOne({original_url: url, shortened_url: short}, function(err, urlLib) {
+      collection.insertOne({original_url: url, shortened_url: short}, {'forceServerObjectId':'true'}, function(err, urlLib) {
+        //console.log("now what?")
         if (err) {
           console.log(err);
-          return false;
         } else {
-         console.log("successful insertion");
-         callback(urlLib);
-          postData(urlLib)
-          return true;
-         console.log(urlLib)
+         //console.log("successful insertion");
+         //callback(urlLib);
+          postData(urlLib)     
+         //console.log(urlLib)
         }
       });
     }
@@ -84,15 +83,12 @@ MongoClient.connect(mongoURL, function(err, client) {
       return true;
     }*/
     // posts result to the screen
-    var postData = function(urlLib /*log, url, short*/) {
-      //if(log) {
-      //  urlLib[url] = short; //logs query to url library(urlLib)
-      //}
-       //data.obj.original_url = url;
-      //data.obj.shortened_url = short;
+    var postData = function(urlLib) {
+      console.log(urlLib, "postData")
       var obj = {};
       for(var key in urlLib) {
         var value = urlLib[key];
+        console.log(value, "value")
         if(key === "original_url") {
           obj.original_url = value;
         }
@@ -101,6 +97,7 @@ MongoClient.connect(mongoURL, function(err, client) {
         }
       }
        res.json(obj);
+      client.close();
     }
 
    // creates a random string to build the shortened url
@@ -143,22 +140,11 @@ MongoClient.connect(mongoURL, function(err, client) {
   
 mapquest(url);
   
+  console.log("client closed")
   
-  client.close();
   });
   
 });
-
-
-
-
-  // findDocuments(db, function() {
-  //Close connection
-  //client.close();
-  //});  
-
-
-  
 
 
 /*
