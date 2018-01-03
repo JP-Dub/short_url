@@ -4,10 +4,10 @@
   "description": "FCC Backend Challenge: URL Shortener Microservice",
   "main": "server.js",
   "dependencies": {
-    "bson-ext": "file:node_modules/bson-ext",
+    "bson-ext": "^1.0.5",
     "express": "^4.16.2",
     "kerberos": "0.0.23",
-    "mongodb": "^3.0.0-rc0",
+    "mongodb": "^3.0.1",
     "node-gyp": "^3.6.2",
     "valid-url": "^1.0.9"
   },
@@ -21,12 +21,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/JP-Dub/header-request"
+    "url": "https://github.com/JP-Dub/short_url"
   },
   "author": "jDub",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/JP-Dub/header-request/issues"
+    "url": "https://github.com/JP-Dub/short_url/issues"
   },
   "keywords": [
     "fcc",
